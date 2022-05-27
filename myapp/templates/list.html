@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Minimal Django File Upload Example</title>
+        <title>Carregar arquivos e executar</title>
     </head>
 
     <body>
@@ -32,6 +32,13 @@
             </p>
 
             <p><input type="submit" value="Carregar"/></p>
+
+            
+        </form >
+        <form method="post" action="{% url "my-result" %}">
+            {% csrf_token %}
+            </p>
+            <p><input type="submit" value="Gerar Resultados"/></p>
         </form>
     </body>
 </html>
