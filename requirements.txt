@@ -33,5 +33,3 @@ threadpoolctl==2.2.0
 
 typing-extensions==3.10.0.0
 wheel==0.37.0
-wincertstore==0.2
-wrapt==1.12.1
