@@ -1,5 +1,9 @@
 {
     "conventionalCommits.scopes": [
         "loadfiles"
+    ],
+    "cSpell.enableFiletypes": [
+        "pip-requirements",
+        "sqlite"
     ]
 }
