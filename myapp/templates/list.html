@@ -8,7 +8,7 @@
     <body>
         <!-- List of uploaded documents -->
         {% if documents %}
-            All documents in the database:
+            Todos os documentos do banco de dados:
             <ul>
                 {% for document in documents %}
                     <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
@@ -39,6 +39,9 @@
             {% csrf_token %}
             </p>
             <p><input type="submit" value="Gerar Resultados"/></p>
+        </form>
+            <div><a>Para modificar a base de dados:  </a></div>
+            <a href="/admin">Entrar como Administrador</a>
         </form>
     </body>
 </html>

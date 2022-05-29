@@ -23,6 +23,8 @@
   var red1 = eval(red);
   var nreduc =  document.getElementById("nreduc").innerText;
   var nreduc_ = eval(nreduc);
+  var nvezes =  document.getElementById("nvezes").innerText;
+  var nvezes_ = eval(nvezes);
   var nfiles =  document.getElementById("nfiles").innerText;
   var nfiles_ = eval(nfiles);
   // Themes begin
@@ -70,6 +72,7 @@
     // Add scrollbar
 
     chart.data = ori
+    chart.scrollbarX = new am4core.Scrollbar();
 
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "medida";
@@ -111,131 +114,131 @@
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.lineX.strokeOpacity = 0;
     chart.cursor.lineY.strokeOpacity = 0;
+    
+    for( vz=0;vz< nvezes_;vz++) {
 
-    for( j=0;j< nreduc_.length;j++) {
-      nred = j+nred
-      dv1 = dv1+j+1
-      div2= dv1
+      for( j=0;j< nreduc_.length;j++) {
+        nred = j+nred
+        dv1 = dv1+j+1
+        div2= dv1
 
-      dv_ = String(div2)
-      divroot = "chartdiv"
-      div_11 = divroot.concat(dv_)
-      red =''
-     
-      red = red1[nred].replace('{"0":{"0":', '[{ medida: ');
-      red = red.replaceAll('"0":', '');
-      red = red.replaceAll('"1":', '');
-      red = red.replaceAll('{"', '{ medida: "');
-      red = red.replaceAll('",', '", value: ');
-      red = red.replace('2":{', '{');
-      red = red.replaceAll('"2":', ' value1: ')
-      red = red.replace('"2":', ' ');red = red.replace('"3":', ' ');red = red.replace('"4":', ' ');red = red.replace('"5":', ' ');red = red.replace('"6":', ' ');red = red.replace('"7":', ' ');red = red.replace('"8":', ' ');red = red.replace('"9":', ' ');red = red.replace('"10":', ' ');red = red.replace('"11":', ' ');red = red.replace('"12":', ' ');
-      red = red.replace('"13":', ' ');red = red.replace('14":', ' ');red = red.replace('"15":', ' ');red = red.replace('"16":', ' ');red = red.replace('"17":', ' ');red = red.replace('"18":', ' ');red = red.replace('"19":', ' ');red = red.replace('"20":', ' ');red = red.replace('"21":', ' ');red = red.replace('"22":', ' ');red = red.replace('"23":', ' ');
-      red = red.replace('"24":', ' ');red = red.replace('"25":', ' ');red = red.replace('"26":', ' ');red = red.replace('"27":', ' ');red = red.replace('"28":', ' ');red = red.replace('"29":', ' ');red = red.replace('"30":', ' ');red = red.replace('"31":', ' ');red = red.replace('"32":', ' ');red = red.replace('"33":', ' ');red = red.replace('"34":', ' ');
-      red = red.replace('"35":', ' ');red = red.replace('"36":', ' ');red = red.replace('"37":', ' ');red = red.replace('"38":', ' ');red = red.replace('"39":', ' ');red = red.replace('"40":', ' ');red = red.replace('"41":', ' ');red = red.replace('"42":', ' ');red = red.replace('"43":', ' ');red = red.replace('"44":', ' ');red = red.replace('"45":', ' ');
-      red = red.replace('"46":', ' ');red = red.replace('"49":', ' ');red = red.replace('"50":', ' ');red = red.replace('"51":', ' ');red = red.replace('"52":', ' ');red = red.replace('"53":', ' ');red = red.replace('"54":', ' ');red = red.replace('"55":', ' ');red = red.replace('"56":', ' ');red = red.replace('"57":', ' ');red = red.replace('"57":', ' ');
-      red = red.replace('"57":', ' ');red = red.replace('"58":', ' ');red = red.replace('"59":', ' ');red = red.replace('"60":', ' ');red = red.replace('"61":', ' ');red = red.replace('"62":', ' ');red = red.replace('"63":', ' ');red = red.replace('"64":', ' ');red = red.replace('"65":', ' ');red = red.replace('"66":', ' ');red = red.replace('"67":', ' ');
-      red = red.replace('"68":', ' ');red = red.replace('"69":', ' ');red = red.replace('"70":', ' ');red = red.replace('"71":', ' ');red = red.replace('"72":', ' ');red = red.replace('"73":', ' ');red = red.replace('"74":', ' ');red = red.replace('"75":', ' ');red = red.replace('"76":', ' ');red = red.replace('"77":', ' ');red = red.replace('"78":', ' ');
-      red = red.replace('"79":', ' ');red = red.replace('"80":', ' ');red = red.replace('"81":', ' ');red = red.replace('"82":', ' ');red = red.replace('"83":', ' ');red = red.replace('"84":', ' ');red = red.replace('"85":', ' ');red = red.replace('"86":', ' ');red = red.replace('"87":', ' ');red = red.replace('"88":', ' ');red = red.replace('"89":', ' ');
-      red = red.replace('"90":', ' ');red = red.replace('"91":', ' ');red = red.replace('"92":', ' ');red = red.replace('"93":', ' ');red = red.replace('"94":', ' ');red = red.replace('"95":', ' ');red = red.replace('"96":', ' ');red = red.replace('"97":', ' ');red = red.replace('"98":', ' ');red = red.replace('"99":', ' ');red = red.replace('"100":', ' ');
-      red = red.replace('"101":', ' ');red = red.replace('"102":', ' ');red = red.replace('"103":', ' ');red = red.replace('"104":', ' ');red = red.replace('"105":', ' ');red = red.replace('"406":', ' ');red = red.replace('"105":', ' ');red = red.replace('"406":', ' ');red = red.replace('"107":', ' ');red = red.replace('"108":', ' ');red = red.replace('"109":', ' ');
-      red = red.replace('"110":', ' ');red = red.replace('"111":', ' ');red = red.replace('}}', '}]');;red = red.replace('","":', ' ');
-      red = red.replace('"47":', ' ');red = red.replace('"48":', ' ');red = red.replace('"106":', ' ');red = red.replaceAll(',"', ', ');
-      red = red.replaceAll('2"', 'valeu1 ')
+        dv_ = String(div2)
+        divroot = "chartdiv"
+        div_11 = divroot.concat(dv_)
+        red =''
       
-      
-      //red = eval(red)
-     console.log(red)
-     reduc = eval(red)
-      // Themes end
-      console.log(reduc)
-      
+        red = red1[nred].replace('{"0":{"0":', '[{ medida: ');
+        red = red.replaceAll('"0":', '');
+        red = red.replaceAll('"1":', '');
+        red = red.replaceAll('{"', '{ medida: "');
+        red = red.replaceAll('",', '", value: ');
+        red = red.replace('2":{', '{');
+        red = red.replaceAll('"2":', ' value1: ')
+        red = red.replace('"2":', ' ');red = red.replace('"3":', ' ');red = red.replace('"4":', ' ');red = red.replace('"5":', ' ');red = red.replace('"6":', ' ');red = red.replace('"7":', ' ');red = red.replace('"8":', ' ');red = red.replace('"9":', ' ');red = red.replace('"10":', ' ');red = red.replace('"11":', ' ');red = red.replace('"12":', ' ');
+        red = red.replace('"13":', ' ');red = red.replace('14":', ' ');red = red.replace('"15":', ' ');red = red.replace('"16":', ' ');red = red.replace('"17":', ' ');red = red.replace('"18":', ' ');red = red.replace('"19":', ' ');red = red.replace('"20":', ' ');red = red.replace('"21":', ' ');red = red.replace('"22":', ' ');red = red.replace('"23":', ' ');
+        red = red.replace('"24":', ' ');red = red.replace('"25":', ' ');red = red.replace('"26":', ' ');red = red.replace('"27":', ' ');red = red.replace('"28":', ' ');red = red.replace('"29":', ' ');red = red.replace('"30":', ' ');red = red.replace('"31":', ' ');red = red.replace('"32":', ' ');red = red.replace('"33":', ' ');red = red.replace('"34":', ' ');
+        red = red.replace('"35":', ' ');red = red.replace('"36":', ' ');red = red.replace('"37":', ' ');red = red.replace('"38":', ' ');red = red.replace('"39":', ' ');red = red.replace('"40":', ' ');red = red.replace('"41":', ' ');red = red.replace('"42":', ' ');red = red.replace('"43":', ' ');red = red.replace('"44":', ' ');red = red.replace('"45":', ' ');
+        red = red.replace('"46":', ' ');red = red.replace('"49":', ' ');red = red.replace('"50":', ' ');red = red.replace('"51":', ' ');red = red.replace('"52":', ' ');red = red.replace('"53":', ' ');red = red.replace('"54":', ' ');red = red.replace('"55":', ' ');red = red.replace('"56":', ' ');red = red.replace('"57":', ' ');red = red.replace('"57":', ' ');
+        red = red.replace('"57":', ' ');red = red.replace('"58":', ' ');red = red.replace('"59":', ' ');red = red.replace('"60":', ' ');red = red.replace('"61":', ' ');red = red.replace('"62":', ' ');red = red.replace('"63":', ' ');red = red.replace('"64":', ' ');red = red.replace('"65":', ' ');red = red.replace('"66":', ' ');red = red.replace('"67":', ' ');
+        red = red.replace('"68":', ' ');red = red.replace('"69":', ' ');red = red.replace('"70":', ' ');red = red.replace('"71":', ' ');red = red.replace('"72":', ' ');red = red.replace('"73":', ' ');red = red.replace('"74":', ' ');red = red.replace('"75":', ' ');red = red.replace('"76":', ' ');red = red.replace('"77":', ' ');red = red.replace('"78":', ' ');
+        red = red.replace('"79":', ' ');red = red.replace('"80":', ' ');red = red.replace('"81":', ' ');red = red.replace('"82":', ' ');red = red.replace('"83":', ' ');red = red.replace('"84":', ' ');red = red.replace('"85":', ' ');red = red.replace('"86":', ' ');red = red.replace('"87":', ' ');red = red.replace('"88":', ' ');red = red.replace('"89":', ' ');
+        red = red.replace('"90":', ' ');red = red.replace('"91":', ' ');red = red.replace('"92":', ' ');red = red.replace('"93":', ' ');red = red.replace('"94":', ' ');red = red.replace('"95":', ' ');red = red.replace('"96":', ' ');red = red.replace('"97":', ' ');red = red.replace('"98":', ' ');red = red.replace('"99":', ' ');red = red.replace('"100":', ' ');
+        red = red.replace('"101":', ' ');red = red.replace('"102":', ' ');red = red.replace('"103":', ' ');red = red.replace('"104":', ' ');red = red.replace('"105":', ' ');red = red.replace('"406":', ' ');red = red.replace('"105":', ' ');red = red.replace('"406":', ' ');red = red.replace('"107":', ' ');red = red.replace('"108":', ' ');red = red.replace('"109":', ' ');
+        red = red.replace('"110":', ' ');red = red.replace('"111":', ' ');red = red.replace('}}', '}]');;red = red.replace('","":', ' ');
+        red = red.replace('"47":', ' ');red = red.replace('"48":', ' ');red = red.replace('"106":', ' ');red = red.replaceAll(',"', ', ');
+        red = red.replaceAll('2"', 'valeu1 ')
+ 
+      reduc = eval(red)
 
-      am4core.ready(function() {
 
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-        
-        // Create chart instance
-        var chart = am4core.create(div_11, am4charts.XYChart);
-       // chart.cursor = new am4charts.XYCursor();
-       // chart.cursor.behavior = "zoomXY";
-        
-        //add legend
-        chart.legend = new am4charts.Legend();
-        chart.scrollbarX = new am4core.Scrollbar();
-        // Export
-        chart.exporting.menu = new am4core.ExportMenu();
-        
-        // Data for both series
-        var data = reduc
-        
-        /* Create axes */
-        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "medida";
-        //categoryAxis.renderer.minGridDistance = 30;
-        categoryAxis.tooltip.label.rotation = 270;
-        categoryAxis.renderer.labels.template.rotation = 270;
-        categoryAxis.renderer.labels.template.hideOversized = false;
-        categoryAxis.renderer.minGridDistance = 20;
-        categoryAxis.renderer.labels.template.horizontalCenter = "right";
-        categoryAxis.renderer.labels.template.verticalCenter = "middle";
-        categoryAxis.tooltip.label.rotation = 270;
-        categoryAxis.tooltip.label.horizontalCenter = "right";
-        categoryAxis.tooltip.label.verticalCenter = "middle";
-        
-        /* Create value axis */
-        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        
-        var columnTemplate = series.columns.template;
-        columnTemplate.strokeWidth = 2;
-        columnTemplate.strokeOpacity = 1;
-        columnTemplate.stroke = am4core.color("#FFFFFF");
-        
-        /* Create series */
-        var columnSeries = chart.series.push(new am4charts.ColumnSeries3D());
-        columnSeries.name = "reduzido";
-        columnSeries.dataFields.valueY = "value";
-        columnSeries.dataFields.categoryX = "medida";
-        
-        columnSeries.columns.template.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
-        columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
-        columnSeries.columns.template.propertyFields.stroke = "stroke";
-        columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
-        columnSeries.columns.template.propertyFields.strokeDasharray = "columnDash";
-        columnSeries.tooltip.label.textAlign = "middle";
-        
-        var lineSeries = chart.series.push(new am4charts.LineSeries());
-        lineSeries.name = "Original";
-        lineSeries.dataFields.valueY = "value1";
-        lineSeries.dataFields.categoryX = "medida";
-        
-        lineSeries.stroke = am4core.color("#fdd400");
-        lineSeries.strokeWidth = 3;
-        lineSeries.propertyFields.strokeDasharray = "lineDash";
-        lineSeries.tooltip.label.textAlign = "middle";
-        
-        var bullet = lineSeries.bullets.push(new am4charts.Bullet());
-        bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
-        bullet.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
-        var circle = bullet.createChild(am4core.Circle);
-        circle.radius = 4;
-        circle.fill = am4core.color("#fff");
-        circle.strokeWidth = 3;
-        
-        chart.data = data;
-        
-        });
+        am4core.ready(function() {
 
+          // Themes begin
+          am4core.useTheme(am4themes_animated);
+          // Themes end
+ 
+          // Create chart instance
+          var chart = am4core.create(div_11, am4charts.XYChart);
+        // chart.cursor = new am4charts.XYCursor();
+        // chart.cursor.behavior = "zoomXY";
+          
+          //add legend
+          chart.legend = new am4charts.Legend();
+          chart.scrollbarX = new am4core.Scrollbar();
+          // Export
+          chart.exporting.menu = new am4core.ExportMenu();
+          
+          // Data for both series
+          var data = reduc
+          
+          /* Create axes */
+          var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+          categoryAxis.dataFields.category = "medida";
+          //categoryAxis.renderer.minGridDistance = 30;
+          categoryAxis.tooltip.label.rotation = 270;
+          categoryAxis.renderer.labels.template.rotation = 270;
+          categoryAxis.renderer.labels.template.hideOversized = false;
+          categoryAxis.renderer.minGridDistance = 20;
+          categoryAxis.renderer.labels.template.horizontalCenter = "right";
+          categoryAxis.renderer.labels.template.verticalCenter = "middle";
+          categoryAxis.tooltip.label.rotation = 270;
+          categoryAxis.tooltip.label.horizontalCenter = "right";
+          categoryAxis.tooltip.label.verticalCenter = "middle";
+          
+          /* Create value axis */
+          var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+          
+          var columnTemplate = series.columns.template;
+          columnTemplate.strokeWidth = 2;
+          columnTemplate.strokeOpacity = 1;
+          columnTemplate.stroke = am4core.color("#FFFFFF");
+          
+          /* Create series */
+          var columnSeries = chart.series.push(new am4charts.ColumnSeries3D());
+          columnSeries.name = "reduzido";
+          columnSeries.dataFields.valueY = "value";
+          columnSeries.dataFields.categoryX = "medida";
+          
+          columnSeries.columns.template.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+          columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
+          columnSeries.columns.template.propertyFields.stroke = "stroke";
+          columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
+          columnSeries.columns.template.propertyFields.strokeDasharray = "columnDash";
+          columnSeries.tooltip.label.textAlign = "middle";
+          
+          var lineSeries = chart.series.push(new am4charts.LineSeries());
+          lineSeries.name = "Original";
+          lineSeries.dataFields.valueY = "value1";
+          lineSeries.dataFields.categoryX = "medida";
+          
+          lineSeries.stroke = am4core.color("#fdd400");
+          lineSeries.strokeWidth = 3;
+          lineSeries.propertyFields.strokeDasharray = "lineDash";
+          lineSeries.tooltip.label.textAlign = "middle";
+          
+          var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+          bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+          bullet.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+          var circle = bullet.createChild(am4core.Circle);
+          circle.radius = 4;
+          circle.fill = am4core.color("#fff");
+          circle.strokeWidth = 3;
+          
+          chart.data = data;
+          
+          });
+
+        }
       }
-
     }
     }); // end am4core.ready()
 
 </script>
 
     <!-- HTML -->
+    <form>
+      <input type='button' value='Voltar' onclick="javascript: history.go(-1)" />
+    </form>
     <div id="chartdiv0"></div>
     <div id="chartdiv1"></div>
     <div id="chartdiv2"></div>
@@ -265,4 +268,5 @@
     <div id="list_df_ft" style="opacity: 0;">{{list_df_ft}}</div>
     <div id="list_df_red" style="opacity: 0;">{{list_df_red}}</div>
     <div id="nreduc" style="opacity: 0;">{{nreduc}}</div>
+    <div id="nvezes" style="opacity: 0;">{{nvezes}}</div>
     <div id="nfiles" style="opacity: 0;">{{nfiles}}</div>

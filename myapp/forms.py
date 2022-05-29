@@ -2,4 +2,4 @@ from django import forms
 
 
 class DocumentForm(forms.Form):
-    docfile = forms.FileField(label='Selecione o arquivo:')
+    docfile = forms.FileField(label='Selecione novo arquivo:')

@@ -14,9 +14,10 @@ from pymfe.mfe import MFE
 import requests
 
 
+    
 def my_view(request):
     print(f"Excelente! Você está usando o Python 3.6+. Se você falhar aqui, use a versão correta.")
-    message = 'Carregue quantos arquivos desejar!!'
+    message = 'Carregue novos arquivos no formato .csv!!'
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -117,9 +118,9 @@ def my_result(request):
                 list_reduce.append(df_ft_reduce)
                 b = [list_df_ft,list_reduce]
                 listo.append(b)
-
+            
             print("**********************Numero de Repetições da Redução: ",i+1,"***********************************************************\n")
 
     context = {'documents': documents, 'form': form, 'list_df_ft': list_df_ft, 'list_df_red': list_reduce, 'list': listo,
-               'nreduc': nreduce, 'nfiles': nfiles }
+               'nreduc': nreduce, 'nfiles': nfiles , 'nvezes': nvezes }
     return render(request,'result.html',context)
