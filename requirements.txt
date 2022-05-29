@@ -1,8 +1,7 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: win-64
-asgiref=3.4.1
-astroid=2.7.3
+
 async_generator=1.10
 attrs=21.2.0
 autopep8=1.5.7
