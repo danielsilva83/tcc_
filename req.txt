@@ -52,7 +52,7 @@ nbformat @ file:///tmp/build/80754af9/nbformat_1617383369282/work
 nest-asyncio @ file:///tmp/build/80754af9/nest-asyncio_1613680548246/work
 notebook @ file:///C:/ci/notebook_1629205926310/work
 numexpr @ file:///C:/ci/numexpr_1618856738664/work
-numpy
+
 olefile @ file:///home/conda/feedstock_root/build_artifacts/olefile_1602866521163/work
 orderedmultidict==1.0.1
 packaging @ file:///tmp/build/80754af9/packaging_1625611678980/work
