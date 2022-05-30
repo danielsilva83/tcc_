@@ -1,2 +1,2 @@
 web: gunicorn tw_clientes.wsgi
-web: python manage.py runserver 0:9000
+web: python manage.py runserver 8000
