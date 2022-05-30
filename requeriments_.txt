@@ -4,8 +4,10 @@
 argon2-cffi=20.1.0=py38h2bbff1b_1
 ca-certificates=2022.4.26=haa95532_0
 charset-normalizer=2.0.4=pyhd3eb1b0_0
+dj-database-url=0.5.0=pypi_0
 django-bootstrap4=1.1.1=py_0
 django-crispy-forms=1.12.0=pyhd8ed1ab_0
+django-heroku=0.3.1=pypi_0
 importlib-metadata=4.8.1=py38haa95532_0
 intel-openmp=2021.4.0=h57928b3_3556
 lazy-object-proxy=1.6.0=py38h294d835_0
