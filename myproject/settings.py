@@ -31,7 +31,7 @@ SECRET_KEY = '@2tcr%p+je0h#+ujlqu*s%ax!$s2%^w9rh%=eg2jv270o3p0+b'
 DEBUG = True
 
 ALLOWED_HOSTS = ['tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com',
-                 'tccgraf.herokuapp.com/result']
+                 'tccgraf.herokuapp.com/result', 'tccgraf.herokuapp.com/result/result']
 # Application definition
 
 INSTALLED_APPS = [
