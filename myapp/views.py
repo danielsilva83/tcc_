@@ -45,7 +45,7 @@ def my_result(request):
     form = DocumentForm()  
     documents = Document.objects.all()
     nvezes_ = request.GET.get('nvezes','')
-    console.log(nvezes_)
+    print(nvezes_)
     nvezes = int(nvezes_)
     #2 #nvezes = numero de repetições do experimento para cada um dos conjuntos de dados
     nreduce = [0.1,0.12] #nreduce = lista com as porcentagens de redução para cada conjunto de dados
