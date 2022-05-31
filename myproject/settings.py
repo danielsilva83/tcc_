@@ -30,8 +30,7 @@ SECRET_KEY = '@2tcr%p+je0h#+ujlqu*s%ax!$s2%^w9rh%=eg2jv270o3p0+b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com',
-                 'tccgraf.herokuapp.com/result', 'tccgraf.herokuapp.com/result/result']
+ALLOWED_HOSTS = ['tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com']
 
 # Application definition
 
