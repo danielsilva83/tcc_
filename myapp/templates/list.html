@@ -37,6 +37,7 @@
         </form >
         <form method="post" action="{% url "my-result" %}">
             {% csrf_token %}
+            <p><input type="input" value="Numero de repetições"/></p>
             </p>
             <p><input type="submit" value="Gerar Resultados"/></p>
         </form>
