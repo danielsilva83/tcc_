@@ -54,7 +54,7 @@ def my_result(request):
         listo = []
         file = document.docfile.url
         print(file)
-        url = '0.0.0.0:\$PORT'+file
+        url = file
 
         # os.path.join(data_path, file) #data = Pasta local onde se encontra os dataset, arquivos .csv 
         #all_files = glob.glob(r) #fazendo o carregamento dos datasets da pasta 'data' com os arquivos .csv
