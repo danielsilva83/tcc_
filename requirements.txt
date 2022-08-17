@@ -43,6 +43,7 @@ scikit-multilearn==0.2.0
 soupsieve==2.3.2.post1
 tqdm==4.62.2
 wheel==0.37.1
+djangorestframework
 
 
 
