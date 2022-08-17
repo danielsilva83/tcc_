@@ -5,5 +5,8 @@
     "cSpell.enableFiletypes": [
         "pip-requirements",
         "sqlite"
+    ],
+    "python.analysis.extraPaths": [
+        "./django-rest-framework-master"
     ]
 }

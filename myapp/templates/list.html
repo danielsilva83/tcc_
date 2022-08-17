@@ -8,7 +8,7 @@
     <body>
         <!-- List of uploaded documents -->
         {% if documents %}
-            Todos os documentos do banco de dados:
+            Lista de arquivos carrecados:
             <ul>
                 {% for document in documents %}
                     <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
@@ -35,11 +35,15 @@
 
             
         </form >
-        <form method="post" action="{% url "my-result" %}">
+        <form method="post" action="{% url "build-process" %}">
             {% csrf_token %}
-            <p><input type="number" name="nvezes" value="Numero de repetições"/></p>
-            </p>
-            <p><input type="submit" value="Gerar Resultados"/></p>
+           
+            <p><input type="submit" value="Gerar Experimento"/></p>
+        </form>
+        <form method="post" action="{% url "list-process" %}">
+            {% csrf_token %}
+           
+            <p><input type="submit" value="Listar Experimentos"/></p>
         </form>
             <div><a>Para modificar a base de dados:  </a></div>
             <a href="/admin">Entrar como Administrador</a>

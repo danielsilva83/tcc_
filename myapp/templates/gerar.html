@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>informar parametros de execução</title>
+    </head>
+
+    <body>
+        Nome para o experimento
+        <form method="post" action="{% url "build-process1" %}">
+                    <input type="text" name="nome" placeholder="nome">
+        
+            <p>
+            informar numero de repetições do experimento
+            
+                    <input type="number" name="numero" placeholder="numero de repetições">
+            
+            <p>informar vetor com os tamanhos da redução aleatoria que será realizado no conjunto de dados
+            <p>exe.: 0.1, 0.15, 0.20, ..., 0.95 
+            
+                    <input type="text" name="reduce" placeholder="tamanho">
+            
+                Executar processo para o conjunto de dados
+     
+            {% csrf_token %}
+
+            <p><input type="submit" value="Executar processo"/></p>
+
+        </form>
+    </body>
+</html>

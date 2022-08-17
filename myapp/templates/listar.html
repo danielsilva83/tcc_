@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Listar Processos</title>
+    </head>
+
+    <body>
+        <!-- List of uploaded documents -->
+        <h1>Lista de Processos</h1>
+        <ul>
+            {% for process in context %}
+                <li>
+                    <a href="{{ process.id }}">{{ process }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url "my-view" %}" method="post" >
+            {% csrf_token %}
+
+            <p><input type="submit" value="Voltar"/></p>
+
+            
+        </form >
+       
+    </body>
+</html>
