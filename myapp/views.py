@@ -1,10 +1,13 @@
+import asyncio
 from dataclasses import replace
 from fileinput import filename
 from io import BytesIO, StringIO
+import itertools
 import json
 from threading import Thread
 from time import perf_counter
 from typing import Literal
+from unittest import result
 from urllib import request
 import uuid
 from django.shortcuts import redirect, render
@@ -12,12 +15,8 @@ from .models import Document
 from .models import Experimento, Original, Resultados
 from .forms import DocumentForm
 import sqlite3
-import re
-import os
-import sys
 import pandas as pd
 import pymfe
-import glob
 from pymfe.mfe import MFE
 import requests 
 
@@ -164,6 +163,7 @@ def buld_list(nvezes_, nreduce, nome, documents, form):
 
                 reducformat=df_ft_reduce.drop(index = 0)
                 reducformat['id_experimento'] = idexp
+                reducformat['reducao'] = reduce
                 salvarResultados(reducformat) 
                                               #id_original, id_resultados)
                 df_ft_reduce = df_ft_reduce.append(df_ft_.loc[1],ignore_index=True)
@@ -187,7 +187,7 @@ def buld_list(nvezes_, nreduce, nome, documents, form):
     buld_list.retorno = context
    
 
-def build(request):
+async def build(request):
     form = DocumentForm()  
     documents = Document.objects.all()
     nvezes_ = request.POST.get('numero')
@@ -202,6 +202,7 @@ def build(request):
     # start the threads
     t.start()
     t.join()
+    
     return buld_list.retorno
    
 def list_experimento(request):
@@ -212,8 +213,8 @@ def list_experimento(request):
 def build_process1(request):
     start_time = perf_counter()
     
-  
-    context = build(request)
+   
+    context = asyncio.run(build(request))
 
     end_time = perf_counter()
     
@@ -224,8 +225,75 @@ def build_process1(request):
 def list_process(request):
     result = Experimento.objects.all()
     list_result = [entry for entry in result]
-    context = {'context': list_result}
+    context = {'context': list_result,  'medi' : 'cor.mean'}
     return render(request,'listar.html', context= context)
 
+def list_process_id(request, id):
+    id = str(id)
+    id_experimento = id
 
+    medi = 'cor.mean'
+    experimento = Experimento.objects.filter(id=id).values()
+    #medidasx = {'cor.max', 'cor.mean', 'cor.median', 'cor.min', 'cor.sd', 'cov.max', 'cov.mean', 'cov.median', 'cov.min', 'cov.sd', 'eigenvalues.max', 'eigenvalues.mean', 'eigenvalues.median', 'eigenvalues.min', 'eigenvalues.sd', 'g_mean.max', 'g_mean.mean', 'g_mean.median', 'g_mean.min', 'g_mean.sd', 'h_mean.max', 'h_mean.mean', 'h_mean.median', 'h_mean.min', 'h_mean.sd', 'iq_range.max', 'iq_range.mean', 'iq_range.median', 'iq_range.min', 'iq_range.sd', 'kurtosis.max', 'kurtosis.mean', 'kurtosis.median', 'kurtosis.min', 'kurtosis.sd', 'mad.max', 'mad.mean', 'mad.median', 'mad.min', 'mad.sd', 'max.max', 'max.mean', 'max.median', 'max.min', 'max.sd', 'mean.max', 'mean.mean', 'mean.median', 'mean.min', 'mean.sd', 'median.max', 'median.mean', 'median.median', 'median.min', 'median.sd', 'min.max', 'min.mean', 'min.median', 'min.min', 'min.sd', 'nr_cor_attr', 'nr_norm', 'nr_outliers', 'range.max', 'range.mean', 'range.median', 'range.min', 'range.sd', 'sd.max', 'sd.mean', 'sd.median', 'sd.min', 'sd.sd', 'skewness.max', 'skewness.mean', 'skewness.median', 'skewness.min', 'skewness.sd', 'sparsity.max', 'sparsity.mean', 'sparsity.median', 'sparsity.min', 'sparsity.sd', 't_mean.max', 't_mean.mean', 't_mean.median', 't_mean.min', 't_mean.sd', 'var.max', 'var.mean', 'var.median', 'var.min', 'var.sd'}
+    medidas = ['cor.max', 'cor.mean', 'cor.median', 'cor.min', 'cor.sd', 'cov.max', 'cov.mean', 'cov.median', 'cov.min', 'cov.sd', 'eigenvalues.max', 'eigenvalues.mean', 'eigenvalues.median', 'eigenvalues.min', 'eigenvalues.sd', 'g_mean.max', 'g_mean.mean', 'g_mean.median', 'g_mean.min', 'g_mean.sd', 'h_mean.max', 'h_mean.mean', 'h_mean.median', 'h_mean.min', 'h_mean.sd', 'iq_range.max', 'iq_range.mean', 'iq_range.median', 'iq_range.min', 'iq_range.sd', 'kurtosis.max', 'kurtosis.mean', 'kurtosis.median', 'kurtosis.min', 'kurtosis.sd', 'mad.max', 'mad.mean', 'mad.median', 'mad.min', 'mad.sd', 'max.max', 'max.mean', 'max.median', 'max.min', 'max.sd', 'mean.max', 'mean.mean', 'mean.median', 'mean.min', 'mean.sd', 'median.max', 'median.mean', 'median.median', 'median.min', 'median.sd', 'min.max', 'min.mean', 'min.median', 'min.min', 'min.sd', 'nr_cor_attr', 'nr_norm', 'nr_outliers', 'range.max', 'range.mean', 'range.median', 'range.min', 'range.sd', 'sd.max', 'sd.mean', 'sd.median', 'sd.min', 'sd.sd', 'skewness.max', 'skewness.mean', 'skewness.median', 'skewness.min', 'skewness.sd', 'sparsity.max', 'sparsity.mean', 'sparsity.median', 'sparsity.min', 'sparsity.sd', 't_mean.max', 't_mean.mean', 't_mean.median', 't_mean.min', 't_mean.sd', 'var.max', 'var.mean', 'var.median', 'var.min', 'var.sd']
+    originals =  sqlite3.connect('db.sqlite3').execute('select * from original where id=(?)',(id)).fetchall()
+    originals = [list(i) for i in originals]
+    original = []
+    for i in originals:
+        for j in i: 
+            original.append(j)
+    print(original)
+    originals = zip(medidas, original)
+    #res = [i for j in map(None, original, medidas)   
+    #                   for i in j if i is not None]
+    resultadosx =  sqlite3.connect('db.sqlite3').execute('select * from resultados where id_experimento = (?)',  id_experimento).fetchall()
+    resultados = [list(i) for i in resultadosx]
+    resultado = []
+    for i in resultados:
+    
+            resultado.append(i)
+    print(resultado)
+    resultados =  resultado 
+    
+    context = {'context': experimento, 'original': originals, 'resultados': resultados}
+    list_process_id.context = context
+    list_process_id.medidas = medidas
+    list_process_id.original = original
+    list_process_id.experimento = experimento
+    return render(request,'listexperimento.html', context)
    
+def graf_medida(request):
+    def split_text(obj, substring = None, start = 0, qtd = 13):
+      qtd = len(obj) if qtd is None else qtd
+
+      if substring:
+        inicio = obj.find(substring)
+        return obj[inicio:inicio+qtd]
+      elif not substring:
+        return obj[start:start+qtd]
+    formi = request.POST.get('medid')
+    forma = split_text (formi, substring = "'", start = 0, qtd = 13)
+    form1 = forma.split("'")
+    
+    nomemedida = str(form1[1])
+    id_experimento  = int(split_text(formi,qtd=2))
+    list_process_id(request, id_experimento)
+    resultadosx = list_process_id.context
+    result = [list(i) for i in resultadosx['resultados']]
+    contexts = list_process_id.experimento
+    medidas = list_process_id.medidas
+    origin =  list_process_id.original
+    
+    context = {'experimento': contexts, 'origin': origin, 'medida' : medidas, 'result': result, 'nomemedida': nomemedida}
+    return render(request,'medidas.html', context)
+         
+    
+
+def graf_medida1(request):
+    if request.method == 'GET':
+        form = [list(i) for i in request]
+    #result = list_process_id(request, id)
+    #print(result)
+    contexts = form
+    context = {'medida': form}
+    return render(request,'medidas.html', context)
