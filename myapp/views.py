@@ -318,12 +318,12 @@ def graf_medida(request):
     tamanhored =dict()
    
     for i in result:
-    
-        resulta['medida']=(i[nomemedida])
-        resultadd.append(resulta)
-
-     
-        resultadd.append( taman[c] )
+        strmed = "{medida: "
+        resulta=str ((i[nomemedida]))
+        resultadd.append(strmed+resulta)
+        t = str (taman[c])
+        strmtam = "tamanhoReducao: "
+        resultadd.append(strmtam+t+"}")
         c=c+1
     cc=0
 

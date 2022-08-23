@@ -26,15 +26,16 @@
      
       var dados = document.getElementById("dados").innerText;
         
-     
+      console.log(dados)
       j=0;i=0;
       var ori1 = dados;
       for(i;i<ori1.length;i++) {
 
         ori =''
-        ori = ori1.replaceAll('},', ", 'tamanhoReducao': ");
-        ori = ori.replaceAll(', {', "}, {");
-        ori = ori.replaceAll("'", "");
+        
+        ori = ori1.replaceAll("'",'');
+        //ori = ori.replaceAll(', {', "}, {");
+        //ori = ori.replaceAll("'", "");
    
       }
       console.log(ori)
@@ -55,7 +56,7 @@
         categoryAxis.dataFields.category = "tamanhoReducao";
         categoryAxis.renderer.labels.template.rotation = 270;
         categoryAxis.renderer.labels.template.hideOversized = false;
-        categoryAxis.renderer.minGridDistance = 20;
+        categoryAxis.renderer.minGridDistance = 35;
         categoryAxis.renderer.labels.template.horizontalCenter = "right";
         categoryAxis.renderer.labels.template.verticalCenter = "middle";
         categoryAxis.tooltip.label.rotation = 270;
@@ -80,7 +81,7 @@
         series.columns.template.fillOpacity = .8;
     
         var columnTemplate = series.columns.template;
-        columnTemplate.strokeWidth = 2;
+        columnTemplate.strokeWidth = 1;
         columnTemplate.strokeOpacity = 1;
         columnTemplate.stroke = am4core.color("#FFFFFF");
     
@@ -125,14 +126,14 @@
       series1.dataFields.valueX = "tamanhoReducao";
       series1.dataFields.valueY = "medida";
       series1.dataFields.value = "tamanhoReducao";
-      series1.strokeWidth = 2;
+      series1.strokeWidth = 1;
           
       
       var bullet1 = series1.bullets.push(new am4charts.CircleBullet());
       series1.heatRules.push({
         target: bullet1.circle,
         min: 5,
-        max: 25,
+        max: 5,
         property: "radius"
       });
       
@@ -142,13 +143,13 @@
       series2.dataFields.valueX = "tamanhoReducao";
       series2.dataFields.valueY = "medida";
       series2.dataFields.value = "tamanhoReducao";
-      series2.strokeWidth = 2;
+      series2.strokeWidth = 1;
       
       var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
       series2.heatRules.push({
         target: bullet2.circle,
         min: 5,
-        max: 20,
+        max: 5,
         property: "radius"
       });
       
