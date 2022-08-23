@@ -4,6 +4,7 @@ from fileinput import filename
 from io import BytesIO, StringIO
 import itertools
 import json
+from multiprocessing.sharedctypes import Value
 from threading import Thread
 from time import perf_counter
 from typing import Literal
@@ -232,33 +233,38 @@ def list_process_id(request, id):
     id = str(id)
     id_experimento = id
 
-    medi = 'cor.mean'
+    
     experimento = Experimento.objects.filter(id=id).values()
     #medidasx = {'cor.max', 'cor.mean', 'cor.median', 'cor.min', 'cor.sd', 'cov.max', 'cov.mean', 'cov.median', 'cov.min', 'cov.sd', 'eigenvalues.max', 'eigenvalues.mean', 'eigenvalues.median', 'eigenvalues.min', 'eigenvalues.sd', 'g_mean.max', 'g_mean.mean', 'g_mean.median', 'g_mean.min', 'g_mean.sd', 'h_mean.max', 'h_mean.mean', 'h_mean.median', 'h_mean.min', 'h_mean.sd', 'iq_range.max', 'iq_range.mean', 'iq_range.median', 'iq_range.min', 'iq_range.sd', 'kurtosis.max', 'kurtosis.mean', 'kurtosis.median', 'kurtosis.min', 'kurtosis.sd', 'mad.max', 'mad.mean', 'mad.median', 'mad.min', 'mad.sd', 'max.max', 'max.mean', 'max.median', 'max.min', 'max.sd', 'mean.max', 'mean.mean', 'mean.median', 'mean.min', 'mean.sd', 'median.max', 'median.mean', 'median.median', 'median.min', 'median.sd', 'min.max', 'min.mean', 'min.median', 'min.min', 'min.sd', 'nr_cor_attr', 'nr_norm', 'nr_outliers', 'range.max', 'range.mean', 'range.median', 'range.min', 'range.sd', 'sd.max', 'sd.mean', 'sd.median', 'sd.min', 'sd.sd', 'skewness.max', 'skewness.mean', 'skewness.median', 'skewness.min', 'skewness.sd', 'sparsity.max', 'sparsity.mean', 'sparsity.median', 'sparsity.min', 'sparsity.sd', 't_mean.max', 't_mean.mean', 't_mean.median', 't_mean.min', 't_mean.sd', 'var.max', 'var.mean', 'var.median', 'var.min', 'var.sd'}
-    medidas = ['cor.max', 'cor.mean', 'cor.median', 'cor.min', 'cor.sd', 'cov.max', 'cov.mean', 'cov.median', 'cov.min', 'cov.sd', 'eigenvalues.max', 'eigenvalues.mean', 'eigenvalues.median', 'eigenvalues.min', 'eigenvalues.sd', 'g_mean.max', 'g_mean.mean', 'g_mean.median', 'g_mean.min', 'g_mean.sd', 'h_mean.max', 'h_mean.mean', 'h_mean.median', 'h_mean.min', 'h_mean.sd', 'iq_range.max', 'iq_range.mean', 'iq_range.median', 'iq_range.min', 'iq_range.sd', 'kurtosis.max', 'kurtosis.mean', 'kurtosis.median', 'kurtosis.min', 'kurtosis.sd', 'mad.max', 'mad.mean', 'mad.median', 'mad.min', 'mad.sd', 'max.max', 'max.mean', 'max.median', 'max.min', 'max.sd', 'mean.max', 'mean.mean', 'mean.median', 'mean.min', 'mean.sd', 'median.max', 'median.mean', 'median.median', 'median.min', 'median.sd', 'min.max', 'min.mean', 'min.median', 'min.min', 'min.sd', 'nr_cor_attr', 'nr_norm', 'nr_outliers', 'range.max', 'range.mean', 'range.median', 'range.min', 'range.sd', 'sd.max', 'sd.mean', 'sd.median', 'sd.min', 'sd.sd', 'skewness.max', 'skewness.mean', 'skewness.median', 'skewness.min', 'skewness.sd', 'sparsity.max', 'sparsity.mean', 'sparsity.median', 'sparsity.min', 'sparsity.sd', 't_mean.max', 't_mean.mean', 't_mean.median', 't_mean.min', 't_mean.sd', 'var.max', 'var.mean', 'var.median', 'var.min', 'var.sd']
+    medidas = ['cor.max', 'cor.mean', 'cor.median', 'cor.min', 'cor.sd', 'cov.max', 'cov.mean', 'cov.median', 'cov.min', 'cov.sd', 'eigenvalues.max', 'eigenvalues.mean', 'eigenvalues.median', 'eigenvalues.min', 'eigenvalues.sd', 'g_mean.max', 'g_mean.mean', 'g_mean.median', 'g_mean.min', 'g_mean.sd', 'h_mean.max', 'h_mean.mean', 'h_mean.median', 'h_mean.min', 'h_mean.sd', 'iq_range.max', 'iq_range.mean', 'iq_range.median', 'iq_range.min', 'iq_range.sd', 'kurtosis.max', 'kurtosis.mean', 'kurtosis.median', 'kurtosis.min', 'kurtosis.sd', 'mad.max', 'mad.mean', 'mad.median', 'mad.min', 'mad.sd', 'max.max', 'max.mean', 'max.median', 'max.min', 'max.sd', 'mean.max', 'mean.mean', 'mean.median', 'mean.min', 'mean.sd', 'median.max', 'median.mean', 'median.median', 'median.min', 'median.sd', 'min.max', 'min.mean', 'min.median', 'min.min', 'min.sd', 'nr_cor_attr', 'nr_norm', 'nr_outliers', 'range.max', 'range.mean', 'range.median', 'range.min', 'range.sd', 'sd.max', 'sd.mean', 'sd.median', 'sd.min', 'sd.sd', 'skewness.max', 'skewness.mean', 'skewness.median', 'skewness.min', 'skewness.sd', 'sparsity.max', 'sparsity.mean', 'sparsity.median', 'sparsity.min', 'sparsity.sd', 't_mean.max', 't_mean.mean', 't_mean.median', 't_mean.min', 't_mean.sd', 'var.max', 'var.mean', 'var.median', 'var.min', 'var.sd','tamanhoReducao']
     originals =  sqlite3.connect('db.sqlite3').execute('select * from original where id=(?)',(id)).fetchall()
     originals = [list(i) for i in originals]
     original = []
     for i in originals:
         for j in i: 
             original.append(j)
-    print(original)
-    originals = zip(medidas, original)
+  
+    originals = dict(zip(medidas, original))
     #res = [i for j in map(None, original, medidas)   
     #                   for i in j if i is not None]
     resultadosx =  sqlite3.connect('db.sqlite3').execute('select * from resultados where id_experimento = (?)',  id_experimento).fetchall()
     resultados = [list(i) for i in resultadosx]
     resultado = []
+    resultado1 = []
     for i in resultados:
     
             resultado.append(i)
-    print(resultado)
-    resultados =  resultado 
+   
+    for i in resultados:
+        resultado1.append(dict(zip(medidas, i)) )
     
     context = {'context': experimento, 'original': originals, 'resultados': resultados}
+    list_process_id.resultados = resultado1
+    list_process_id.resultado = resultado
     list_process_id.context = context
     list_process_id.medidas = medidas
     list_process_id.original = original
+    list_process_id.originals = originals
     list_process_id.experimento = experimento
     return render(request,'listexperimento.html', context)
    
@@ -273,18 +279,63 @@ def graf_medida(request):
         return obj[start:start+qtd]
     formi = request.POST.get('medid')
     forma = split_text (formi, substring = "'", start = 0, qtd = 13)
-    form1 = forma.split("'")
-    
+    form1 = formi.split(" ")
+   
     nomemedida = str(form1[1])
+   
     id_experimento  = int(split_text(formi,qtd=2))
+    rtam=[] 
     list_process_id(request, id_experimento)
-    resultadosx = list_process_id.context
-    result = [list(i) for i in resultadosx['resultados']]
-    contexts = list_process_id.experimento
+    experimento = list_process_id.experimento
     medidas = list_process_id.medidas
     origin =  list_process_id.original
+    origins =  list_process_id.originals
+    result = list_process_id.resultados
+    rtam = list_process_id.resultado
     
-    context = {'experimento': contexts, 'origin': origin, 'medida' : medidas, 'result': result, 'nomemedida': nomemedida}
+    #pegar nomemedida e procurar medidas igual
+    originn =dict()
+    originn['medida']=origins[nomemedida] 
+    originn['tamanhoReducao']=0
+   
+   
+    
+    
+    tam =  dict()
+    taman=[]
+    tamann=[]
+    for i in rtam:
+        tam= (i[-1])
+        #taman.append('tamanhoReducao')
+        taman.append(tam*100 )
+
+    resultadd = [] 
+
+    c=0
+    resulta = dict()
+
+    tama= dict()
+    tamanhored =dict()
+   
+    for i in result:
+    
+        resulta['medida']=(i[nomemedida])
+        resultadd.append(resulta)
+
+     
+        resultadd.append( taman[c] )
+        c=c+1
+    cc=0
+
+    for i in result:
+        if (cc==0):
+            resultadd.append(originn)
+        #print(resultadd  )
+        cc=cc+1
+
+    fin = (resultadd  )
+    print(resultadd)
+    context = {'experimento': experimento, 'origin': origin, 'medida' : medidas, 'result': result, 'nomemedida': nomemedida, 'origins': origins, 'dados': fin}
     return render(request,'medidas.html', context)
          
     
