@@ -167,10 +167,12 @@
         var valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
         valueAxisX.renderer.ticks.template.disabled = true;
         valueAxisX.renderer.axisFills.template.disabled = true;
+        valueAxisX.title.text = "Tamanho da Redução em (¨%)";
         
         var valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxisY.renderer.ticks.template.disabled = true;
         valueAxisY.renderer.axisFills.template.disabled = true;
+        valueAxisY.title.text = "Valor da medida";
         
         var series = chart.series.push(new am4charts.LineSeries());
         series.dataFields.valueX = "tamanhoReducao";
