@@ -125,5 +125,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+MEDIA_URL_EXP = '/exports/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT_EXP = os.path.join(BASE_DIR, 'exports')
 
