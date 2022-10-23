@@ -29,4 +29,4 @@ urlpatterns = [
     path('', include('myapp.urls')),
     path('result/', include('myapp.urls')),
     path('api/', include(route.urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.MEDIA_URL_EXP, document_root=settings.MEDIA_ROOT_EXP)

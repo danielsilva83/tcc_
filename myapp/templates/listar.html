@@ -1,17 +1,24 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Listar Processos</title>
+        <title>Listar Experimentos</title>
     </head>
 
     <body>
         <!-- List of uploaded documents -->
-        <h1>Lista de Processos</h1>
+        <h1>Lista de Experimentos</h1>
         <ul>
             {% for process in context %}
                 <li>
+                     Medidas do experimento: 
                     <a href="{{ process.id }}">{{ process }}</a>
+                       Download Resultado Original 
+                    <a href="{{ process.salvarDf_O }}">{{ process.salvarDf_O }}</a>
+                       Download Resultado Reduzido 
+                    <a href="{{ process.salvarDf_R }}">{{ process.salvarDf_R }}</a>
+                  <p>
                 </li>
             {% endfor %}
         </ul>
