@@ -1,3 +1,11 @@
+<style>
+    .centraliza {
+       
+        width: 1055px;
+        margin: auto;
+        height: 375px; 
+    }
+    </style>
 <!DOCTYPE html>
 
 <html>
@@ -5,35 +13,40 @@
         <meta charset="utf-8">
         <title>Experimento</title>
     </head>
-
-    <body>
-        <form>
-            <input type='button' value='Voltar' onclick="javascript: history.go(-1)" />
-        </form>
-      
-        <h1>  Experimento </h1>
-        <form action="{% url 'graf-medida' %}" method="POST">
-            {% csrf_token %}
-                {% for process in context %}
-                    <li>
-                        {{ process.nome }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul>
-                
-                {% for process1 in original %}
-                    {% for process in context %}
-                        <li>
-                             <input name="medid" type="submit" value="{{ process.id }} {{ process1 }} " 
-                             
-                        </li>
+   
+        <body>
+            <form>
+                <input type='button' value='Voltar' onclick="javascript: history.go(-1)" />
+            </form>
+            <div class="centraliza" > 
+                <h1>  Experimento </h1>
+                <form action="{% url 'graf-medida' %}" method="POST">
+                    {% csrf_token %}
+                        {% for process in context %}
+                        
+                            <h4> Nome do Experimento:  {{ process.nome }}</a></h4>
+                            <h4> Numero de repetições:  {{ process.numero_repeticoes }}</h4>
+                            <h4>Tamanho das Reduções: {{ process.tamanhos_reducao }}</h4>
+                            
                         {% endfor %}
-                    </li>
-                {% endfor %}
-            </ul>
-            <ul>
-              
-            </ul>
-        </form>
+                 
+                    <ul>
+                        
+                        {% for process1 in original %}
+                            {% for process in context %}
+                                <li>
+                                    <input name="medid" type="submit" value="{{ process.id }} {{ process1 }} " 
+                                    
+                                </li>
+                                {% endfor %}
+                           
+                        {% endfor %}
+                    </ul>
+                    <ul>
+                    
+                    </ul>
+                </form>
+            </div>
+        </body>
+        
 </html>

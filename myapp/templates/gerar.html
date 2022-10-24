@@ -1,31 +1,44 @@
+<style>
+    .centraliza {
+       
+        width: 755px;
+        margin: auto;
+        height: 375px; 
+    }
+    </style>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>informar parametros de execução</title>
     </head>
-
-    <body>
-        Nome para o experimento
-        <form method="post" action="{% url "build-process1" %}">
-                    <input type="text" name="nome" placeholder="nome">
+    <form>
+        <h2> <input type='button' value='Voltar' onclick="javascript: history.go(-1)" /></h2>
+    </form>
+    <div class="centraliza" >
+        <body>
+          
+            <form method="post" action="{% url "build-process1" %}">
+                <p><p><p><p>
+                    <h4> Nome para o experimento:<p>
+                        <input type="text" name="nome" placeholder="nome"></h4>
+            
+                <p>
+                    <h4> Número de repetições do experimento:<p>
+                
+                        <input type="number" name="numero" placeholder="numero de repetições"></h4>
+                
+                        <h4><p>Tamanhos das reduções aleatorias que serão realizadas:<p>
+                
+                        <input type="text" name="reduce" placeholder="tamanho"> exemplo: 0.1, 0.15, 0.20, ..., 0.95 </h4>
+                
+                  
         
-            <p>
-            informar numero de repetições do experimento
-            
-                    <input type="number" name="numero" placeholder="numero de repetições">
-            
-            <p>informar vetor com os tamanhos da redução aleatoria que será realizado no conjunto de dados
-            <p>exe.: 0.1, 0.15, 0.20, ..., 0.95 
-            
-                    <input type="text" name="reduce" placeholder="tamanho">
-            
-                Executar processo para o conjunto de dados
-     
-            {% csrf_token %}
+                {% csrf_token %}
 
-            <p><input type="submit" value="Executar processo"/></p>
+                <h1><p><input type="submit" value="Executar Experimento"/></p></h1>
 
-        </form>
-    </body>
+            </form>
+        </body>
+        </div>
 </html>
