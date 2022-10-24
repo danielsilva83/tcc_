@@ -1,5 +1,9 @@
 <!-- Styles -->
 <style>
+    #chartdiv1 {
+      width: 100%;
+      height: 600px;
+    }
     #chartdiv {
       width: 100%;
       height: 600px;
@@ -140,7 +144,7 @@
           target: bullet1.circle,
           min: 5,
           max: 5,
-          property: "radius"
+          property: "radius=10",
         });
         
         bullet1.tooltipText = "{valueX} x {valueY}: [bold]{value}[/]";
@@ -255,17 +259,17 @@
         <h1>  Grafico da Medida {{nomemedida}}</h1>
 
         
-        <div id="chartdiv"></div>
+        
         <div id="chartdiv1"></div>
-        <div id="chartdiv2"></div>
-        <div id="chartdiv3"></div>
+       
         <div id="dados" style="opacity: 0;">{{dados}}</div>
 
         <div id="experimento" style="opacity: 0;">{{experimento}}</div>
         <div id="origin" style="opacity: 0;">{{origin}}</div>
-        <div id="medida" style="opacity: 0;">{{medida}}</div>
+        <div id="medida" style="visibility: hidden;opacity: 0;">{{medida}}</div>
         <div id="result" style="opacity: 0;">{{result}}</div>
         <div id="nomemedida" style="opacity: 0;">{{nomemedida}}</div>
-        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        
     </body>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </html>
