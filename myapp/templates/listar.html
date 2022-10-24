@@ -1,22 +1,15 @@
+<style>
+    .centraliza {
+       
+        width: 1055px;
+        margin: auto;
+        height: 375px; 
+    }
+    </style>
 <!DOCTYPE html>
+
 <html>
     <head>
-        <meta charset="utf-8">
-        <title>Listar Processos</title>
-    </head>
-
-    <body>
-        <!-- List of uploaded documents -->
-        <h1>Lista de Processos</h1>
-        <ul>
-            {% for process in context %}
-                <li>
-                    <a href="{{ process.id }}">{{ process }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        <!-- Upload form. Note enctype attribute! -->
         <form action="{% url "my-view" %}" method="post" >
             {% csrf_token %}
 
@@ -24,6 +17,33 @@
 
             
         </form >
-       
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <meta charset="utf-8">
+        <title>Lista de Experimentos</title>
+    </head>
+
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <div class="centraliza" >
+            <!-- List of uploaded documents -->
+            <h1>Lista de Experimentos</h1>
+            <ul>
+                {% for process in context %}
+                    <li>
+                       <h6> Vizualizar medidas do Experimento: <a href="{{ process.id }}">{{ process }}</a> <p> </h6>
+                        Download Resultado Original <a href="{{ process.salvarDf_O }}">{{ process.salvarDf_O }}</a><br>
+                        Download Resultado Reduzido <a href="{{ process.salvarDf_R }}">{{ process.salvarDf_R }}</a><p>
+                    </li>
+
+                    <p>
+                
+                {% endfor %}
+            </ul>
+
+            <!-- Upload form. Note enctype attribute! -->
+          
+        </div>
     </body>
 </html>

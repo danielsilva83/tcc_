@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -15,7 +16,7 @@
             {% csrf_token %}
                 {% for process in context %}
                     <li>
-                        {{ process }}</a>
+                        {{ process.nome }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -25,17 +26,14 @@
                     {% for process in context %}
                         <li>
                              <input name="medid" type="submit" value="{{ process.id }} {{ process1 }} " 
+                             
                         </li>
                         {% endfor %}
                     </li>
                 {% endfor %}
             </ul>
             <ul>
-                {% for process2 in resultados %}
-                    <li>
-                        resltados: {{ process2 }}</a>
-                    </li>
-               {% endfor %}
+              
             </ul>
         </form>
 </html>
