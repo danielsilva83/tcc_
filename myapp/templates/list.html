@@ -49,7 +49,7 @@
                     <!-- Upload form. Note enctype attribute! -->
                     <form action="{% url "my-view" %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                       <li> {{ message }}</li>
+                       <li> Para carregar novo arquivo, clique em Escolher arquivo e depois Carregar arquivo.</li>
                        <li> Para gerar um novo experimento com as arquivos já carrecados clique em Gerar experimento</li>
                        <li> Para vizualizar experimentos já realizados, clique em Listar experimentos</li>
                         <p>{{ form.non_field_errors }}</p>
