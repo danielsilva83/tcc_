@@ -16,7 +16,7 @@
             {% csrf_token %}
                 {% for process in context %}
                     <li>
-                        {{ process }}</a>
+                        {{ process.nome }}</a>
                     </li>
                 {% endfor %}
             </ul>

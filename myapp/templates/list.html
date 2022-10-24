@@ -1,53 +1,86 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Carregar arquivos e executar</title>
-    </head>
-
-    <body>
-        <!-- List of uploaded documents -->
-        {% if documents %}
-            Lista de arquivos carrecados:
-            <ul>
-                {% for document in documents %}
-                    <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Sem Documentos.</p>
-        {% endif %}
-
-        <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url "my-view" %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ message }}
-            <p>{{ form.non_field_errors }}</p>
-
-            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-
-            <p>
-                {{ form.docfile.errors }}
-                {{ form.docfile }}
-            </p>
-
-            <p><input type="submit" value="Carregar"/></p>
-
-            
-        </form >
-        <form method="post" action="{% url "build-process" %}">
-            {% csrf_token %}
-           
-            <p><input type="submit" value="Gerar Experimento"/></p>
-        </form>
-        <form method="post" action="{% url "list-process" %}">
-            {% csrf_token %}
-           
-            <p><input type="submit" value="Listar Experimentos"/></p>
-        </form>
-            <div><a>Para modificar a base de dados:  </a></div>
-            <a href="/admin">Entrar como Administrador</a>
-        </form>
-    </body>
-</html>
+<style>
+    .centraliza {
+        width: 955px;
+        margin: auto;
+        height: 375px; //Se quer altura automática, é só deletar essa linha
+    }
+    </style>
+    <!DOCTYPE html>
+    
+    <html>
+        <head>
+            <!-- Required meta tags -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+        
+            <title>Experimentos Meta-Feature</title>
+        </head>
+    
+        <body>
+                <!-- Optional JavaScript; choose one of the two! -->
+    
+            <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+            <!-- Option 2: Separate Popper and Bootstrap JS -->
+            <!--
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+            -->
+            <!-- List of uploaded documents -->
+            <div class="centraliza" >
+               
+                    {% if documents %}
+                    <h3> Gerador de Experimentos para a extração de Metacaracterísticas</h3><p>
+                    <h5> Lista de arquivos já carrecados:</h5>
+                        <ul>
+                            {% for document in documents %}
+                            <h6>   <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li><h6>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Sem Documentos.</p>
+                    {% endif %}
+    
+                    <!-- Upload form. Note enctype attribute! -->
+                    <form action="{% url "my-view" %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                       <li> {{ message }}</li>
+                       <li> Para gerar um novo experimento com as arquivos já carrecados clique em Gerar experimento</li>
+                       <li> Para vizualizar experimentos já realizados, clique em Listar experimentos</li>
+                        <p>{{ form.non_field_errors }}</p>
+    
+                        <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+    
+                        <p>
+                            {{ form.docfile.errors }}
+                            {{ form.docfile }}
+                        </p> <p>
+    
+                      <h5>  <p><input type="submit" value="Carregar arquivos"/></p></h5>
+    
+                        
+                    </form > <p>
+                    <form method="post" action="{% url "build-process" %}">
+                        {% csrf_token %}
+                    
+                        <h5><p><input type="submit" value="Gerar Experimento"/></p></h5>
+                    </form> <p>
+                    <form method="post" action="{% url "list-process" %}">
+                        {% csrf_token %}
+                    
+                        <h5><p><input type="submit" value="Listar Experimentos"/></p></h5>
+                    </form>
+                    <p> <p>
+                        <div><a>Para modificar a base de dados:  </a></div>
+                        <h6>  <a href="/admin">Entrar como Administrador</a></h6>
+                    </form>
+               
+            </div>
+        </body>
+    </html>
+    
