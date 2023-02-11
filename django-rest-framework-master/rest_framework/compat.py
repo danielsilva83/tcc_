@@ -49,7 +49,8 @@ except ImportError:
 
 # pyyaml is optional
 try:
-    import yaml
+    from rest_framework.compat import  yaml
+  
 except ImportError:
     yaml = None
 
