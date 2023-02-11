@@ -23,91 +23,20 @@
     // end am4core.ready()
     am4core.ready(function() {
       var experimento = document.getElementById("experimento").innerText;
-     
       var nome_medida = document.getElementById("nomemedida").innerText;
-    
       var origin = document.getElementById("origin").innerText;
-     
-      var dados = document.getElementById("dados").innerText;
-        
+      var dados = document.getElementById("dados").innerText; 
+
       console.log(dados)
       j=0;i=0;
       var ori1 = dados;
       for(i;i<ori1.length;i++) {
-
         ori =''
-        
         ori = ori1.replaceAll("'",'');
-        //ori = ori.replaceAll(', {', "}, {");
-        //ori = ori.replaceAll("'", "");
-   
       }
       console.log(ori)
       // Themes begin
-      am4core.useTheme(am4themes_animated);
-      // Themes end
-      
-      // Create chart instance
-      var chart = am4core.create("chartdiv2", am4charts.XYChart);
-      
-      // Add data
-      chart.data = eval(ori);
-      
-      // Create axes
-      var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-      xAxis.renderer.minGridDistance = 1;
-      xAxis.title.text = "Tamanho da redução em (¨%)";
-      
-      
-      // Create value axis
-      var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      yAxis.title.text = "Valor da medida";
-      yAxis.title.fontWeight = "bold";
-      
-      // Create series
-      var series1 = chart.series.push(new am4charts.LineSeries());
-      series1.dataFields.valueX = "tamanhoReducao";
-      series1.dataFields.valueY = "medida";
-      series1.dataFields.value = "tamanhoReducao";
-      series1.strokeWidth = 0;
-          
-      
-      var bullet1 = series1.bullets.push(new am4charts.CircleBullet());
-      series1.heatRules.push({
-        target: bullet1.circle,
-        min: 5,
-        max: 10,
-        property: "radius"
-      });
-      
-      bullet1.tooltipText = "{valueX} x {valueY}: [bold]{value}[/]";
-      
-      var series2 = chart.series.push(new am4charts.LineSeries());
-      series2.dataFields.valueX = "tamanhoReducao";
-      series2.dataFields.valueY = "medida";
-      series2.dataFields.value = "tamanhoReducao";
-      series2.strokeWidth = 1;
-      
-      var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
-      series2.heatRules.push({
-        target: bullet2.circle,
-        min: 5,
-        max: 10,
-        property: "radius"
-      });
-      
-
-  
-      bullet2.tooltipText = "{valueX} x {valueY}: [bold]{value}[/]";
-       
-      //scrollbars
-      chart.scrollbarX = new am4core.Scrollbar();
-      chart.scrollbarY = new am4core.Scrollbar();
-      chart.cursor = new am4charts.XYCursor();
-      chart.cursor.behavior = "zoomXY";
-      chart.cursor.snapToSeries = series;
-      }); // end am4core.ready()
-
+     
       am4core.ready(function() {
         
         // Themes begin
@@ -125,7 +54,6 @@
         xAxis.renderer.minGridDistance = 1;
         xAxis.title.text = "Tamanho da redução em (¨%)";
         
-        
         // Create value axis
         var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
         yAxis.title.text = "Valor da medida";
@@ -138,7 +66,6 @@
         series1.dataFields.value = "tamanhoReducao";
         series1.strokeWidth = 0;
             
-        
         var bullet1 = series1.bullets.push(new am4charts.CircleBullet());
         series1.heatRules.push({
           target: bullet1.circle,
@@ -148,99 +75,16 @@
         });
         
         bullet1.tooltipText = "{valueX} x {valueY}: [bold]{value}[/]";
-        
-       
-        
+      
         //scrollbars
         chart.scrollbarX = new am4core.Scrollbar();
         chart.scrollbarY = new am4core.Scrollbar();
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "zoomXY";
-        chart.cursor.snapToSeries = series;
+        chart.cursor.snapToSeries = series1;
         
         }); // end am4core.ready()
-
-      am4core.ready(function() {
-
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-        
-        var chart = am4core.create("chartdiv", am4charts.XYChart);
-        
-        var valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
-        valueAxisX.renderer.ticks.template.disabled = true;
-        valueAxisX.renderer.axisFills.template.disabled = true;
-        valueAxisX.title.text = "Tamanho da Redução em (¨%)";
-        
-        var valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxisY.renderer.ticks.template.disabled = true;
-        valueAxisY.renderer.axisFills.template.disabled = true;
-        valueAxisY.title.text = "Valor da medida";
-        
-        var series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.valueX = "tamanhoReducao";
-        series.dataFields.valueY = "medida";
-        series.dataFields.value = "medida";
-        series.strokeOpacity = 0;
-        series.sequencedInterpolation = true;
-        series.tooltip.pointerOrientation = "vertical";
-        
-        var bullet = series.bullets.push(new am4core.Circle());
-        bullet.fill = am4core.color("#ff0000");
-        bullet.propertyFields.fill = "color";
-        bullet.strokeOpacity = 0;
-        bullet.strokeWidth = 0;
-        bullet.fillOpacity = 0.5;
-        bullet.stroke = am4core.color("#ffffff");
-        bullet.hiddenState.properties.opacity = 0;
-        bullet.tooltipText = "[bold]{title}[/]\nValor da Medida: {value.value}\nTamanho Redução: {valueX.value}\n";
-        
-        var outline = chart.plotContainer.createChild(am4core.Circle);
-        outline.fillOpacity = 0;
-        outline.strokeOpacity = 0.8;
-        outline.stroke = am4core.color("#ff0000");
-        outline.strokeWidth = 2;
-        outline.hide(0);
-        
-        var blurFilter = new am4core.BlurFilter();
-        outline.filters.push(blurFilter);
-        
-        bullet.events.on("over", function(event) {
-            var target = event.target;
-            outline.radius = target.pixelRadius + 2;
-            outline.x = target.pixelX;
-            outline.y = target.pixelY;
-            outline.show();
-        })
-        
-        bullet.events.on("out", function(event) {
-            outline.hide();
-        })
-        
-        var hoverState = bullet.states.create("hover");
-        hoverState.properties.fillOpacity = 1;
-        hoverState.properties.strokeOpacity = 1;
-        
-        series.heatRules.push({ target: bullet, min: 2, max: 60, property: "radius" });
-        
-        bullet.adapter.add("tooltipY", function (tooltipY, target) {
-            return -target.radius;
-        })
-        
-        chart.cursor = new am4charts.XYCursor();
-        chart.cursor.behavior = "zoomXY";
-        chart.cursor.snapToSeries = series;
-        
-        chart.scrollbarX = new am4core.Scrollbar();
-        chart.scrollbarY = new am4core.Scrollbar();
-        
-        chart.data = eval(ori);
-        
-        }); // end am4core.ready()
-
-
-      
+      }); // end am4core.ready()
     </script>
 <!DOCTYPE html>
 <html>
@@ -253,17 +97,11 @@
         <form>
             <input type='button' value='Voltar' onclick="javascript: history.go(-1)" />
         </form>  
-      
-        
-      
         <h1>  Grafico da Medida {{nomemedida}}</h1>
-
-        
-        
         <div id="chartdiv1"></div>
-       
+        <div id="chartdiv2"></div>
+        <div id="chartdiv"></div>
         <div id="dados" style="opacity: 0;">{{dados}}</div>
-
         <div id="experimento" style="opacity: 0;">{{experimento}}</div>
         <div id="origin" style="opacity: 0;">{{origin}}</div>
         <div id="medida" style="visibility: hidden;opacity: 0;">{{medida}}</div>

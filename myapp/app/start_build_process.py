@@ -1,5 +1,5 @@
 import asyncio
-from myapp.app.build_start import build_start
+from myapp.app.build.build_start import build_start
 from time import perf_counter
 
 from django.shortcuts import render

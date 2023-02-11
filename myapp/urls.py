@@ -4,7 +4,7 @@ from .app.load_files import load_files
 from rest_framework import routers
 from .app.list_process_id import list_process_id
 from .app.graf_medida import graf_medida
-from .app.build_process import build_process
+from .app.build.build_process import build_process
 from .app.start_build_process import start_build_process
 from .app.list_process import list_process
 from .app.list_experimento import list_experimento
