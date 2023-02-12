@@ -4,9 +4,9 @@ from django.db import models
 
 
 class Document(models.Model):
-    docfile = models.FileField(upload_to='../documents/')
+    docfile = models.FileField(upload_to='./documents/')
 class Documentexp(models.Model):
-    docfileexp = models.FileField(upload_to='../export/')
+    docfileexp = models.FileField(upload_to='./export/')
 
 class Experimentos(models.Model):
     id_experimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

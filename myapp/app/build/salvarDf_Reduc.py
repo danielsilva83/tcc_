@@ -1,5 +1,4 @@
-
-from turtle import pd
+import pandas as pd
 
 
 def salvarDf_Reduc (dataframeReduzido, file_name, name_file):
