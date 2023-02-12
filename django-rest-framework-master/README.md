@@ -62,7 +62,7 @@ each Python and Django series.
 
 # Installation
 
-Install using `pip==22.1.1`...
+Install using `pip==23.0`...
 
     pip install djangorestframework
 

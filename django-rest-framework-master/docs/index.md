@@ -101,7 +101,7 @@ The following packages are optional:
 
 ## Installation
 
-Install using `pip==22.1.1`, including any optional packages you want...
+Install using `pip==23.0`, including any optional packages you want...
 
     pip install djangorestframework
     pip install markdown       # Markdown support for the browsable API.
