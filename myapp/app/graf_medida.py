@@ -31,10 +31,6 @@ def graf_medida(request):
     originn =dict()
     originn['medida']=origins[nomemedida] 
     originn['tamanhoReducao']=0
-   
-   
-    
-    
     tam =  dict()
     taman=[]
     tamann=[]
@@ -42,9 +38,7 @@ def graf_medida(request):
         tam= (i[-1])
         #taman.append('tamanhoReducao')
         taman.append(tam*100 )
-
     resultadd = [] 
-
     c=0
     resulta = dict()
 
