@@ -1,5 +1,5 @@
 import sqlite3
-from turtle import pd
+import pandas as pd
 
 from multiprocessing.sharedctypes import Value
 
