@@ -36,13 +36,13 @@ def analise_experimento(request,nome):
           
         data_orig = experimento['salvarDf_O']
     
-        data_orig = data_orig.split('../../')
+        data_orig = data_orig.split('./')
     
         data_reduc =  experimento
         
         data_reduc = experimento['salvarDf_R']
     
-        data_reduc = data_reduc.split('../../')
+        data_reduc = data_reduc.split('./')
         
         cwd = os.getcwd()
         cwd_back = os.path.dirname(cwd)
