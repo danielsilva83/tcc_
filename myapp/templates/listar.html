@@ -1,8 +1,9 @@
 <style>
     .centraliza {
-        width: 1055px;
-        margin: auto;
-        height: 375px; 
+        width: 1555px;
+        margin: 30px;
+        height: 175px; 
+        margin-top: 10px;
     }
     </style>
 <!DOCTYPE html>
@@ -24,15 +25,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <div class="centraliza" >
             <!-- List of uploaded documents -->
-            <h1>Lista de Experimentos</h1>
+            <h1>Lista de Experimentos</h1><p></p>
             <ul>
-                {% for process in context %}
-                    <li>
-                       <h6> Vizualizar medidas do Experimento: <a href="{{ process.id }}">{{ process }}</a> <p> </h6>
-                        Download Resultado Original <a href="{{ process.salvarDf_O }}">{{ process.salvarDf_O }}</a><br>
-                        Download Resultado Reduzido <a href="{{ process.salvarDf_R }}">{{ process.salvarDf_R }}</a><p>
-                    </li>
-                    <p>
+                {% for process in context %}<h5> 
+                    <li>  Nome do Experimento: {{ process }}      — Arquivo: {{ process.arquivo }} </h5> <p> 
+                       <h9> — Vizualizar gráficos dos valores das Medidas por tamanho de redução do dataset: <a href="{{ process.id }}">Visualizar gráficos</a> <p> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por dataset:  <a href="{{ process.nome }}/analise">Visualizar Hanking por dataset</a> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução do dataset:  <a href="{{ process.nome }}/analiselistreducao">Visualizar Hanking por dataset e redução</a> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução com todos os datasets deste Experimento unificados: <a href="{{ process.nome }}/analiselistreducaogeral">Visualizar Hanking Geral</a> <p> </h9>
+                       <h9> — Download Resultado Original <a href="{{ process.salvarDf_O }}">{{ process.salvarDf_O }}</a><br></h6>
+                       <h9> — Download Resultado Reduzido <a href="{{ process.salvarDf_R }}">{{ process.salvarDf_R }}</a><p><p></p></h6>
+                       
+                    </li> <p>
                 {% endfor %}
             </ul>
         </div>

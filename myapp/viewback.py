@@ -127,3 +127,9 @@ def build_process(request):
     context = {'documents': documents, 'form': form, 'list_df_ft': list_df_ft, 'list_df_red': list_reduce, 'list': listo,
                'nreduc': nreduce, 'nfiles': nfiles , 'nvezes': nvezes }
     return render(request,'result.html',context)
+  #<form action="{% url 'analise-experimento' %}" method="POST">
+   #                 <li>
+    #                    {% csrf_token %}
+     #                   <input name="analise-experimento" type="submit" value="Analise geral do Experimento " 
+      #              </li>
+       #         </form>
