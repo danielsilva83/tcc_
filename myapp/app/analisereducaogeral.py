@@ -63,6 +63,10 @@ def analise_experimento_reducao_geral(request,nome):
         all_files_original = glob.glob(data_list_original)
        
         df_union_df = pd.DataFrame()
+        lista_med_constantes_head = ""
+        lista_med_constantes_tail = ""
+        lista_med_variaram_head = ""
+        lista_med_variaram_tail = ""
         #iterando sobre todos os resultados
         for file_  in all_files_resultado:
             #encontrando arquivos originais relativos aos arquivos de resultado

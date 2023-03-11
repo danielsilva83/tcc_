@@ -62,7 +62,10 @@ def analise_experimento_reducao(request,nome):
 
         all_files_original = glob.glob(data_list_original)
        
-
+        lista_med_constantes_head = ""
+        lista_med_constantes_tail = ""
+        lista_med_variaram_head = ""
+        lista_med_variaram_tail = ""
         #iterando sobre todos os resultados
         for file_  in all_files_resultado:
             #encontrando arquivos originais relativos aos arquivos de resultado
