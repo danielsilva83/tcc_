@@ -37,8 +37,9 @@ def build_list(nvezes_, nreduce, nome, documents, form):
         file = document.docfile.url
         print(file)
         url = '.'+file
+        url_ = '.'
         name_file = file
-        urlsaida = '../export'+name_file
+        urlsaida = url_+'/export'+name_file
         
         conn = sqlite3.connect('db.sqlite3')
         c = conn.cursor()
