@@ -5,7 +5,7 @@ def salvarDf_Reduc (dataframeReduzido, file_name, name_file):
     name_file = name_file.replace("/", "_")
     name_file = name_file.replace("media", "")
     name_file = name_file.replace("documents", "")
-    file_name_= '../../exports/'+file_name+name_file+'_reduzido_'+'.csv'
+    file_name_= './exports/'+file_name+name_file+'_reduzido_'+'.csv'
     file_name_1= 'exports/'+file_name+name_file+'_reduzido_'+'.csv'
     print(file_name_)
     

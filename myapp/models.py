@@ -6,7 +6,7 @@ from django.db import models
 class Document(models.Model):
     docfile = models.FileField(upload_to='./documents/')
 class Documentexp(models.Model):
-    docfileexp = models.FileField(upload_to='./export/')
+    docfileexp = models.FileField(upload_to='./documents/export/')
 
 class Experimentos(models.Model):
     id_experimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -22,8 +22,8 @@ class Experimento(models.Model):
     arquivo = models.FileField(upload_to='documents/')
     numero_repeticoes = models.IntegerField()
     tamanhos_reducao = models.CharField(max_length=200)
-    salvarDf_O = models.FileField(upload_to='../export/')
-    salvarDf_R = models.FileField(upload_to='../export/')
+    salvarDf_O = models.FileField(upload_to='./documents/export/')
+    salvarDf_R = models.FileField(upload_to='./documents/export/')
 
     def __str__(self):
         return self.nome
