@@ -139,7 +139,7 @@ def build_list(nvezes_, nreduce, nome, documents, form):
             print("**********************Numero de Repetições da Redução: ",i+1,"***********************************************************\n")
         urlreduc = urlsaida
         salvarDf_R = salvarDf_Reduc(listreducformat,nome, name_file)
-        salvarExperimentos(idexp, nomef, file, nvezes_, nreduce, salvarDf_O, salvarDf_R)
+        salvarExperimentos(idexp, nome, file, nvezes_, nreduce, salvarDf_O, salvarDf_R)
    
     #id_original, id_resultados)
 
