@@ -39,7 +39,7 @@ def build_list(nvezes_, nreduce, nome, documents, form):
         url = '.'+file
         url_ = '.'
         name_file = file
-        urlsaida = url_+'/export'+name_file
+        urlsaida = url+'/export'+name_file
         
         conn = sqlite3.connect('db.sqlite3')
         c = conn.cursor()
