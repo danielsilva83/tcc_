@@ -12,18 +12,18 @@ class Experimentos(models.Model):
     id_experimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     #models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=200)
-    arquivo = models.FileField(upload_to='documents/')
+    arquivo = models.FileField(upload_to='media/documents/export/')
     numero_repeticoes = models.IntegerField()
     tamanhos_reducao = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Experimento(models.Model):
     nome = models.CharField(max_length=200)
-    arquivo = models.FileField(upload_to='documents/')
+    arquivo = models.FileField(upload_to='media/documents/export/')
     numero_repeticoes = models.IntegerField()
     tamanhos_reducao = models.CharField(max_length=200)
-    salvarDf_O = models.FileField(upload_to='../media/documents/export/')
-    salvarDf_R = models.FileField(upload_to='../media/documents/export/')
+    salvarDf_O = models.FileField(upload_to='../../media/documents/export/')
+    salvarDf_R = models.FileField(upload_to='../../media/documents/export/')
 
     def __str__(self):
         return self.nome
