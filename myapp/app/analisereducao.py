@@ -38,21 +38,21 @@ def analise_experimento_reducao(request,nome):
           
         data_orig = experimento['salvarDf_O']
     
-        data_orig = data_orig.split('../../')
+        data_orig = data_orig.split('../')
     
         data_reduc =  experimento
         
         data_reduc = experimento['salvarDf_R']
     
-        data_reduc = data_reduc.split('../../')
+        data_reduc = data_reduc.split('../')
         
         cwd = os.getcwd()
         cwd_back = os.path.dirname(cwd)
-        data_path = os.path.join(cwd_back, 'tcc_')
+        data_path = os.path.join(cwd_back)
         
         # pegando os paths onde estao os arquivos
         data_list = os.path.join(data_path,data_reduc[1])
-    
+        print(data_list)
         #print(data_orig[0]['salvarDf_O'])                
         #os.path.join(data_path, 'resultados','resultados tcc')
         data_list_original = os.path.join(data_path,data_orig[1])
