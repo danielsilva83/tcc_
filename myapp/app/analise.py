@@ -47,7 +47,7 @@ def analise_experimento(request,nome):
         
         cwd = os.getcwd()
         cwd_back = os.path.dirname(cwd)
-        data_path = cwd_back #os.path.join(cwd_back,'tcc_')
+        data_path = os.path.join(cwd_back,'tcc_')
         
         # pegando os paths onde estao os arquivos
         data_list = os.path.join(data_path,data_reduc[1])
