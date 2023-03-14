@@ -37,24 +37,25 @@ def analise_experimento(request,nome):
           
         data_orig = experimento['salvarDf_O']
     
-        #data_orig = data_orig.split('../../')
+        data_orig = data_orig.split('../../')
     
        
         
         data_reduc = experimento['salvarDf_R']
     
-        #data_reduc = data_reduc.split('../../')
+        data_reduc = data_reduc.split('../../')
         
         cwd = os.getcwd()
         cwd_back = os.path.dirname(cwd)
+        print(cwd_back)
         data_path = os.path.join(cwd_back,'tcc_')
-        
+        data_path = data_path.split('tcc_')
         # pegando os paths onde estao os arquivos
-        data_list = os.path.join(data_path,data_reduc)
-        print(data_list)
+        data_list = os.path.join(data_path[0],data_reduc[1])
+        print(data_path)
         #print(data_orig[0]['salvarDf_O'])                
         #os.path.join(data_path, 'resultados','resultados tcc')
-        data_list_original = os.path.join(data_path,data_orig)
+        data_list_original = os.path.join(data_path[0],data_orig[1])
 
         #listando os arquivos
         all_files_resultado = glob.glob(data_list)
