@@ -88,7 +88,7 @@ def analise_experimento_reducao_geral(request,nome):
             df_std = df_std.T
            
 
-            df = df.groupby(['reducao'],as_index=False ).std(numeric_only=True )
+            df = df.groupby(['reducao'],as_index=False ).std( )
             df_reduc = pd.DataFrame(df.reducao)
             df_reduc = df_reduc.values.tolist()
             
