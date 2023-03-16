@@ -175,7 +175,7 @@ def analise_experimento_reducao_geral(request,nome):
     list_medidas_constantes_head_ = list_medidas_constantes_head_.to_html()
    
     for variantes_head  in list_medidas_variantes_head:
-        list_medidas_variantes_head_ = pd.concat([list_medidas_variantes_head_, variantes_head], ignore_index=True)
+        list_medidas_variantes_head_ = pd.concat([list_medidas_variantes_head_, variantes_head])
     list_medidas_variantes_head_['std_geral']  = list_medidas_variantes_head_.std(axis=1)
     list_medidas_variantes_head_ = list_medidas_variantes_head_.sort_values(by='std_geral',ascending=False)
     list_medidas_variantes_head_['rank_std_geral'] = list_medidas_variantes_head_['std_geral'].rank()
@@ -183,7 +183,7 @@ def analise_experimento_reducao_geral(request,nome):
     list_medidas_variantes_head_ = list_medidas_variantes_head_.head(10).to_html()
 
     for variantes_tail  in list_medidas_variantes_tail:
-        list_medidas_variantes_tail_ = pd.concat([list_medidas_variantes_tail_, variantes_tail], ignore_index=True)
+        list_medidas_variantes_tail_ = pd.concat([list_medidas_variantes_tail_, variantes_tail])
     list_medidas_variantes_tail_['std_geral'] = list_medidas_variantes_tail_.std(axis=1)
     list_medidas_variantes_tail_ = list_medidas_variantes_tail_.sort_values(by='std_geral',ascending=False)
     list_medidas_variantes_tail_['rank_std_geral'] = list_medidas_variantes_tail_['std_geral'].rank()
