@@ -60,10 +60,11 @@ def build_list(nvezes_, nreduce, nome, documents, form):
 
 
         #files = [] # vetor para armazenar os Dataframes com os dados de cada dataset carregados
-        files = pd.read_csv(url,encoding = "UTF8", decimal=",", header=0)
+        files = pd.read_csv(url,encoding = "UTF8", decimal=",", header=0, error_bad_lines=False)
         nfiles = nfiles+1 #contando os arquivos
         print("\nArquivo numero: ",nfiles) #printando o numero do arquivo 
         print('Número de instâncias: {}\nNúmero de atributos: {}\n'.format(len(files), len(files.columns))) #printando informação sobre o daframe numero de instancias e atributos
+        files = files.fillna(files.mode().iloc[0])
         list_df_origin = files.values.tolist() # transformando o dataframe em uma lista para passar para o MFE
         mfe.fit(list_df_origin) # passando a lista de dados para o MFE opção Group (All)
         try:
