@@ -8,7 +8,7 @@ from threading import Thread
 from time import perf_counter
 from django.http import HttpResponse
 import pandas as pd
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from myapp.models import Document, Experimento
 
@@ -25,19 +25,22 @@ list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
 def start_build_process_analise(request,nome):
-    start_time = perf_counter()
+    try:
+        start_time = perf_counter()
     
    
-    asyncio.run(build_start_analise(request, nome))
+        asyncio.run(build_start_analise_reducao(request, nome))
 
-    end_time = perf_counter()
+        end_time = perf_counter()
+    except Exception as e:
+        print(e)
     
     print(f'It took {end_time- start_time :0.2f} second(s) to complete.')
-    
+    return redirect('analiselistreducao')
     
 
 
-async def build_start_analise(request, nome):
+async def build_start_analise_reducao(request, nome):
    
     # create 
 
@@ -47,7 +50,7 @@ async def build_start_analise(request, nome):
     t.start()
     t.join()
     
-    return analise_experimento_reducao
+    return  render(request,'analiselistreducao.html',analise_experimento_reducao.retorno)
 
 
 def analise_experimento_reducao(request,nome):
@@ -78,11 +81,11 @@ def analise_experimento_reducao(request,nome):
         
         # pegando os paths onde estao os arquivos
         data_list = data_reduc[1] #os.path.join(data_path,data_reduc)
-
+        print(data_list)
         #print(data_orig[0]['salvarDf_O'])                
         #os.path.join(data_path, 'resultados','resultados tcc')
         data_list_original = data_orig[1] #os.path.join(data_path,data_orig)
-
+        print(data_list_original)
         #listando os arquivos
         all_files_resultado = glob.glob(data_list)
 
@@ -98,7 +101,20 @@ def analise_experimento_reducao(request,nome):
             file_original = seek_file_original(all_files_original,file_)
             
              #lendo resultados
-            df = pd.read_csv(file_, sep = '\t')
+            #df = pd.read_csv(file_, sep = '\t')
+            reader = pd.read_csv(file_, chunksize=100, sep = '\t')
+
+            # Inicializar uma lista vazia para armazenar os DataFrames resultantes
+            dfs = []
+
+            # Iterar sobre os blocos e processar cada um
+            for df_chunk in reader:
+                # Processar o bloco e armazenar o resultado na lista de DataFrames
+                dfs.append(df_chunk)
+
+            # Concatenar os DataFrames resultantes em um único DataFrame
+            df = pd.concat(dfs)
+           
             #limpando resultados
             df = df.drop(['Unnamed: 0', 'id_experimento'], axis=1)
             #tirando a media das medidas de todas as repeticoes
@@ -118,7 +134,19 @@ def analise_experimento_reducao(request,nome):
             df_reduc = df_reduc.values.tolist()
             
             #lendo medidas originais
-            df_original = pd.read_csv(file_original, sep = '\t')
+            #df_original = pd.read_csv(file_original, sep = '\t')
+            reader = pd.read_csv(file_original, chunksize=100, sep = '\t')
+
+            # Inicializar uma lista vazia para armazenar os DataFrames resultantes
+            dfs = []
+
+            # Iterar sobre os blocos e processar cada um
+            for df_chunk in reader:
+                # Processar o bloco e armazenar o resultado na lista de DataFrames
+                dfs.append(df_chunk)
+
+            # Concatenar os DataFrames resultantes em um único DataFrame
+            df_original = pd.concat(dfs)
             #limpando originais
             df_original = df_original.drop(['id'], axis=1)
             df_original = df_original.drop(['Unnamed: 0'], axis=1)
@@ -194,6 +222,7 @@ def analise_experimento_reducao(request,nome):
                'list_medidas_variantes_tail': list_medidas_variantes_tail, 
                'list_medidas_constantes_tail': list_medidas_constantes_tail}
     
-    return render(request,'analiselistreducao.html',context)
-
+    analise_experimento_reducao.retorno = context
+    
+    return analise_experimento_reducao
 
