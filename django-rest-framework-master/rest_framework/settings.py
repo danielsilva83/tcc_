@@ -77,6 +77,8 @@ DEFAULTS = {
     'UNAUTHENTICATED_USER': 'django.contrib.auth.models.AnonymousUser',
     'UNAUTHENTICATED_TOKEN': None,
 
+    'SECURE_PROXY_SSL_HEADER' :('HTTP_X_FORWARDED_PROTO', 'https'),
+
     # View configuration
     'VIEW_NAME_FUNCTION': 'rest_framework.views.get_view_name',
     'VIEW_DESCRIPTION_FUNCTION': 'rest_framework.views.get_view_description',
@@ -228,6 +230,8 @@ class APISettings:
         self._cached_attrs.add(attr)
         setattr(self, attr, val)
         return val
+    
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     def __check_user_settings(self, user_settings):
         SETTINGS_DOC = "https://www.django-rest-framework.org/api-guide/settings/"
