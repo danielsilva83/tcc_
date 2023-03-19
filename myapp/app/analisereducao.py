@@ -1,8 +1,11 @@
+import asyncio
 import glob
 import io
 import json
 import os
 import string
+from threading import Thread
+from time import perf_counter
 from django.http import HttpResponse
 import pandas as pd
 from django.shortcuts import render
@@ -21,7 +24,30 @@ list_medidas_variantes_head = []
 list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
+def start_build_process_analise(request,nome):
+    start_time = perf_counter()
+    
+   
+    asyncio.run(build_start_analise(request, nome))
 
+    end_time = perf_counter()
+    
+    print(f'It took {end_time- start_time :0.2f} second(s) to complete.')
+    
+    
+
+
+async def build_start_analise(request, nome):
+   
+    # create 
+
+    t = Thread(target=analise_experimento_reducao, args=(request, nome))
+
+    # start the threads
+    t.start()
+    t.join()
+    
+    return analise_experimento_reducao
 
 
 def analise_experimento_reducao(request,nome):
