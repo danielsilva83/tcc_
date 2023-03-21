@@ -27,16 +27,16 @@ list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
 
-def start_build_process_analise_reducacao_geral(request, nome):
+async def start_build_process_analise_reducacao_geral(request, nome):
     try:
         start_time = perf_counter()
-        asyncio.run(build_start_analise_reducao_geral(request, nome))
+        await asyncio.run(build_start_analise_reducao_geral(request, nome))
         end_time = perf_counter()
     except Exception as e:
         print(e)
     return render(request,'analiselistreducaogeral.html',analise_experimento_reducao_geral.retorno)
   
-async def build_start_analise_reducao_geral(request, nome):
+def build_start_analise_reducao_geral(request, nome):
     # create 
     t = Thread(target=analise_experimento_reducao_geral, args=(request, nome))
     # start the threads
