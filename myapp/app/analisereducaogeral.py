@@ -12,7 +12,7 @@ import pandas as pd
 from django.shortcuts import redirect, render
 from myapp.models import Document, Experimento
 
-NUM_THREADS = 160 # número de threads que serão usadas para ler o arquivo CSV
+NUM_THREADS = 40 # número de threads que serão usadas para ler o arquivo CSV
 
 
 def seek_file_original(all_files_original, file_seek):
@@ -28,24 +28,27 @@ list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
 
-def start_build_process_analise_reducacao_geral(request, nome):
+async def start_build_process_analise_reducacao_geral(request, nome):
+
     try:
         start_time = perf_counter()
         asyncio.run(build_start_analise_reducao_geral(request, nome))
         end_time = perf_counter()
+        
     except Exception as e:
         print(e)
+    await asyncio.sleep(40)
     return render(request,'analiselistreducaogeral.html',analise_experimento_reducao_geral.retorno)
   
-async def build_start_analise_reducao_geral(request, nome):
+def build_start_analise_reducao_geral(request, nome):
     # create 
     t = Thread(target=analise_experimento_reducao_geral, args=(request, nome))
     # start the threads
     t.start()
     t.join()
-    await asyncio.sleep(40)
+    
 
-    return await analise_experimento_reducao_geral.retorno
+    return  analise_experimento_reducao_geral.retorno
 
 
 def analise_experimento_reducao_geral(request,nome):
