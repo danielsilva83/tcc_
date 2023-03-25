@@ -35,7 +35,6 @@ def start_build_process_analise_reducacao_geral(request, nome):
         end_time = perf_counter()
     except Exception as e:
         print(e)
-    time.sleep(7)
     return render(request,'analiselistreducaogeral.html',analise_experimento_reducao_geral.retorno)
   
 async def build_start_analise_reducao_geral(request, nome):
@@ -44,7 +43,9 @@ async def build_start_analise_reducao_geral(request, nome):
     # start the threads
     t.start()
     t.join()
-    return analise_experimento_reducao_geral.retorno
+    await asyncio.sleep(40)
+
+    return await analise_experimento_reducao_geral.retorno
 
 
 def analise_experimento_reducao_geral(request,nome):
