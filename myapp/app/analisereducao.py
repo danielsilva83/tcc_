@@ -11,7 +11,7 @@ import pandas as pd
 from django.shortcuts import redirect, render
 from myapp.models import Document, Experimento
 
-NUM_THREADS = 4  # número de threads que serão usadas para ler o arquivo CSV
+
 
 
 def seek_file_original(all_files_original, file_seek):
@@ -27,65 +27,10 @@ list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
 
-def start_build_process_analise(request, nome):
-    try:
-        start_time = perf_counter()
-        asyncio.run(build_start_analise_reducao(request, nome))
-        end_time = perf_counter()
-    except Exception as e:
-        print(e)
-    print(f'It took {end_time- start_time :0.2f} second(s) to complete.')
-    return redirect('analiselistreducao')
-
-async def build_start_analise_reducao(request, nome):
-    # create 
-    t = Thread(target=analise_experimento_reducao, args=(request, nome))
-    # start the threads
-    t.start()
-    t.join()
-    return  render(request,'analiselistreducao.html',analise_experimento_reducao.retorno)
-
-def read_csv_chunks(file_path, chunksize):
-    """
-    Função auxiliar para ler um arquivo CSV em pedaços (chunks) de tamanho 'chunksize'
-    e retornar uma lista de DataFrames correspondente a cada pedaço lido.
-    """
-    reader = pd.read_csv(file_path, chunksize=chunksize, sep='\t')
-    dfs = []
-    for df_chunk in reader:
-        dfs.append(df_chunk)
-    return dfs
-
-def read_csv_parallel(file_path):
-    """
-    Função para ler um arquivo CSV usando várias threads, dividindo o arquivo em partes iguais
-    e lendo cada parte em uma thread diferente. Retorna um DataFrame resultante da concatenação
-    dos DataFrames lidos em paralelo.
-    """
-    file_size = os.path.getsize(file_path)
-    chunk_size = int(file_size / NUM_THREADS)
-    offsets = range(0, file_size, chunk_size)
-    threads = []
-    dfs = []
-    for i in range(NUM_THREADS):
-        start = offsets[i]
-        end = start + chunk_size
-        if i == NUM_THREADS - 1:
-            # A última thread pode ler além do final do arquivo, se o tamanho do arquivo não for
-            # um múltiplo do tamanho do chunk.
-            end = file_size
-        t = Thread(target=lambda f, s, e: dfs.extend(read_csv_chunks(f, e - s)), args=(file_path, start, end))
-        threads.append(t)
-        t.start()
-    for t in threads:
-        t.join()
-   
 def analise_experimento_reducao(request,nome):
     
     nome = str(nome)
-    id_experimento = nome
 
-    documents = Document.objects.all()
     experimentos = Experimento.objects.filter(nome=nome).values()
     list_medidas_variantes_head.clear(),list_medidas_constantes_head.clear() 
     list_medidas_variantes_tail.clear(),list_medidas_constantes_tail.clear() 
@@ -129,7 +74,7 @@ def analise_experimento_reducao(request,nome):
             
              #lendo resultados
             #df = pd.read_csv(file_, sep = '\t')
-            reader = pd.read_csv(file_, chunksize=100, sep = '\t')
+            reader = pd.read_csv(file_, chunksize=10000, sep = '\t')
 
             # Inicializar uma lista vazia para armazenar os DataFrames resultantes
             dfs = []
@@ -162,7 +107,7 @@ def analise_experimento_reducao(request,nome):
             
             #lendo medidas originais
             #df_original = pd.read_csv(file_original, sep = '\t')
-            reader = pd.read_csv(file_original, chunksize=100, sep = '\t')
+            reader = pd.read_csv(file_original, chunksize=10000, sep = '\t')
 
             # Inicializar uma lista vazia para armazenar os DataFrames resultantes
             dfs = []
@@ -249,7 +194,6 @@ def analise_experimento_reducao(request,nome):
                'list_medidas_variantes_tail': list_medidas_variantes_tail, 
                'list_medidas_constantes_tail': list_medidas_constantes_tail}
     
-    analise_experimento_reducao.retorno = context
+   
     
-    return analise_experimento_reducao
-
+    return render(request,'analiselistreducao.html',context)

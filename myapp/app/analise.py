@@ -24,41 +24,13 @@ list_medidas_variantes_head = []
 list_medidas_constantes_head = []
 list_medidas_variantes_tail = []
 list_medidas_constantes_tail = []
-
-def start_build_process_analise(request,nome):
-    try:
-        start_time = perf_counter()
-        
-    
-        asyncio.run(build_start_analise(request, nome))
-
-        end_time = perf_counter()
-    except Exception as e:
-        print(e)
-    print(f'It took {end_time- start_time :0.2f} second(s) to complete.')
-    return redirect('analiselist')
-    #return render(request,'analiselist.html',context.retorno)
-    
-
-
-async def build_start_analise(request, nome):
-   
-    # create 
-
-    t = Thread(target=analise_experimento, args=(request, nome))
-
-    # start the threads
-    t.start()
-    t.join()
-    
-    return  render(request,'analiselist.html',analise_experimento.retorno)
                 
 def analise_experimento(request,nome):
     
     nome = str(nome)
-    id_experimento = nome
 
-    documents = Document.objects.all()
+
+
     experimentos = Experimento.objects.filter(nome=nome).values()
   
     list_medidas_variantes_head.clear(),list_medidas_constantes_head.clear() 
@@ -212,8 +184,7 @@ def analise_experimento(request,nome):
                'list_medidas_constantes_head': list_medidas_constantes_head,
                'list_medidas_variantes_tail': list_medidas_variantes_tail, 
                'list_medidas_constantes_tail': list_medidas_constantes_tail}
-    analise_experimento.retorno = context
-    
-    return analise_experimento
 
+    
+    return render(request,'analiselist.html',context)
 

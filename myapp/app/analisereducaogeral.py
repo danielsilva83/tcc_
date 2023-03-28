@@ -1,18 +1,13 @@
-import asyncio
-import glob
-import io
-import json
-import os
-import string
-from threading import Thread
-from time import perf_counter
-import time
-from django.http import HttpResponse
-import pandas as pd
-from django.shortcuts import redirect, render
-from myapp.models import Document, Experimento
 
-NUM_THREADS = 40 # número de threads que serão usadas para ler o arquivo CSV
+import glob
+
+import os
+
+import pandas as pd
+from django.shortcuts import render
+from myapp.models import  Experimento
+
+
 
 
 def seek_file_original(all_files_original, file_seek):
@@ -23,40 +18,17 @@ def seek_file_original(all_files_original, file_seek):
             original_file = file_original
             return original_file
 
-list_medidas_variantes_head = []
-list_medidas_constantes_head = []
-list_medidas_variantes_tail = []
-list_medidas_constantes_tail = []
 
-async def start_build_process_analise_reducacao_geral(request, nome):
-
-    try:
-        start_time = perf_counter()
-        asyncio.run(build_start_analise_reducao_geral(request, nome))
-        end_time = perf_counter()
-        
-    except Exception as e:
-        print(e)
-    await asyncio.sleep(40)
-    return render(request,'analiselistreducaogeral.html',analise_experimento_reducao_geral.retorno)
-  
-def build_start_analise_reducao_geral(request, nome):
-    # create 
-    t = Thread(target=analise_experimento_reducao_geral, args=(request, nome))
-    # start the threads
-    t.start()
-    t.join()
-    
-
-    return  analise_experimento_reducao_geral.retorno
 
 
 def analise_experimento_reducao_geral(request,nome):
+    list_medidas_variantes_head = []
+    list_medidas_constantes_head = []
+    list_medidas_variantes_tail = []
+    list_medidas_constantes_tail = []
     
     nome = str(nome)
-    id_experimento = nome
 
-    documents = Document.objects.all()
     experimentos = Experimento.objects.filter(nome=nome).values()
     list_medidas_variantes_head.clear(),list_medidas_constantes_head.clear() 
     list_medidas_variantes_tail.clear(),list_medidas_constantes_tail.clear() 
@@ -72,11 +44,7 @@ def analise_experimento_reducao_geral(request,nome):
         data_reduc = experimento['salvarDf_R']
     
         data_reduc = data_reduc.split('../../')
-        
-        cwd = os.getcwd()
-        cwd_back = os.path.dirname(cwd)
-        data_path = os.path.join(cwd_back,'tcc_')
-      
+
         # pegando os paths onde estao os arquivos
         data_list = data_reduc[1] #os.path.join(data_path,data_reduc)
         print(data_list)
@@ -194,6 +162,7 @@ def analise_experimento_reducao_geral(request,nome):
     for constantes_head  in list_medidas_constantes_head:
         list_medidas_constantes_head_ = pd.concat([list_medidas_constantes_head_, constantes_head], ignore_index=True)
     list_medidas_constantes_head_['std_geral'] = list_medidas_constantes_head_.std(axis=1)
+    
     list_medidas_constantes_head_ = list_medidas_constantes_head_.sort_values(by='std_geral',ascending=False)
   
     list_medidas_constantes_head_['rank_std_geral'] = list_medidas_constantes_head_['std_geral'].rank()
@@ -204,10 +173,11 @@ def analise_experimento_reducao_geral(request,nome):
     for variantes_head  in list_medidas_variantes_head:
         list_medidas_variantes_head_ = pd.concat([list_medidas_variantes_head_, variantes_head])
     list_medidas_variantes_head_['std_geral']  = list_medidas_variantes_head_.std(axis=1)
+    list_medidas_variantes_head_['std_geral'] = list_medidas_variantes_head_['std_geral'].apply(lambda x: '{:,.2f}'.format(x))
     list_medidas_variantes_head_ = list_medidas_variantes_head_.sort_values(by='std_geral',ascending=False)
     list_medidas_variantes_head_['rank_std_geral'] = list_medidas_variantes_head_['std_geral'].rank()
 
-    list_medidas_variantes_head_ = list_medidas_variantes_head_.head(10).to_html()
+    list_medidas_variantes_head_ = list_medidas_variantes_head_.head(50).to_html()
 
     for variantes_tail  in list_medidas_variantes_tail:
         list_medidas_variantes_tail_ = pd.concat([list_medidas_variantes_tail_, variantes_tail])
@@ -215,7 +185,7 @@ def analise_experimento_reducao_geral(request,nome):
     list_medidas_variantes_tail_ = list_medidas_variantes_tail_.sort_values(by='std_geral',ascending=False)
     list_medidas_variantes_tail_['rank_std_geral'] = list_medidas_variantes_tail_['std_geral'].rank()
  
-    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.tail(10).to_html()
+    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.tail(50).to_html()
         
     
     list_medidas_variantes_head.clear(),list_medidas_constantes_head.clear() 
@@ -236,8 +206,7 @@ def analise_experimento_reducao_geral(request,nome):
                'list_medidas_variantes_tail': list_medidas_variantes_tail, 
                'list_medidas_constantes_tail': list_medidas_constantes_tail}
     
-    analise_experimento_reducao_geral.retorno = context
+   
     
-    return analise_experimento_reducao_geral
-
+    return  render(request,'analiselistreducaogeral.html',context)
 
