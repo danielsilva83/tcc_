@@ -46,5 +46,5 @@ wheel==0.37.1
 djangorestframework
 requests
 gunicorn==20.1.0
-
+awaits==0.0.1
 
