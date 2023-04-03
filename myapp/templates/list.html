@@ -36,7 +36,7 @@
                 <p>
                     {% if documents %}
                     <h3> Gerador de Experimentos para a extração de Metacaracterísticas</h3><p>
-                    <h5> Lista de arquivos já carrecados:</h5>
+                    <h5> Lista de arquivos já carregados:</h5>
                         <ul>
                             {% for document in documents %}
                             <h6>   <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li><h6>
@@ -49,9 +49,9 @@
                     <!-- Upload form. Note enctype attribute! -->
                     <form action="{% url "my-view" %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                       <li> Para carregar novo arquivo, clique em Escolher arquivo e depois Carregar arquivo.</li>
-                       <li> Para gerar um novo experimento com as arquivos já carrecados clique em Gerar experimento</li>
-                       <li> Para vizualizar experimentos já realizados, clique em Listar experimentos</li>
+                       <li> Para carregar novo arquivo clique em Escolher arquivo e depois Carregar arquivo.</li>
+                       <li> Para gerar um novo experimento com os arquivos já carregados clique em Gerar experimento.</li>
+                       <li> Para vizualizar experimentos já realizados, clique em Listar experimentos.</li>
                         <p>{{ form.non_field_errors }}</p>
     
                         <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>

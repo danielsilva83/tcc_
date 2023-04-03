@@ -30,8 +30,8 @@ SECRET_KEY = '@2tcr%p+je0h#+ujlqu*s%ax!$s2%^w9rh%=eg2jv270o3p0+b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com','localhost',
-                 'tccgraf.herokuapp.com/result', 'tccgraf.herokuapp.com/result/result']
+ALLOWED_HOSTS = ['http://tccdanielsilvatest.ddns.net/','tccdanielsilva.ddns.net','tccdanielsilva.ddns.net:8000','0.0.0.0','192.168.18.1','192.168.18.17', '127.0.0.1','168.181.51.79','100.65.202.133','tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com','localhost',
+                 'tcc.dan','tccgraf.herokuapp.com/result', 'tccgraf.herokuapp.com/result/result']
 # Application definition
 
 INSTALLED_APPS = [
