@@ -15,7 +15,7 @@ Doing so will allow you to:
 
 You can change the default language by using the standard Django `LANGUAGE_CODE` setting:
 
-    LANGUAGE_CODE = "es-es"
+    LANGUAGE_CODE = 'pt-br'
 
 You can turn on per-request language requests by adding `LocalMiddleware` to your `MIDDLEWARE` setting:
 

@@ -30,9 +30,8 @@ SECRET_KEY = '@2tcr%p+je0h#+ujlqu*s%ax!$s2%^w9rh%=eg2jv270o3p0+b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://tccdanielsilvatest.ddns.net/','tccdanielsilva.ddns.net','tccdanielsilva.ddns.net:8000','0.0.0.0','192.168.18.1','192.168.18.17', '127.0.0.1','168.181.51.79','100.65.202.133','tccgraf.herokuapp.com' , 'tccgraf.herokuapp.com','localhost',
-                 'tcc.dan','tccgraf.herokuapp.com/result', 'tccgraf.herokuapp.com/result/result']
-# Application definition
+PORT = int(os.environ.get('PORT', '8080'))
+ALLOWED_HOSTS = ['*'] 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,10 +51,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -73,8 +72,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
-
+WSGI_APPLICATION = 'wsgi.application'
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -109,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -128,4 +133,10 @@ MEDIA_URL = '/media/'
 MEDIA_URL_EXP = '/exports/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT_EXP = os.path.join(BASE_DIR, 'exports')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import sys
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
 
+import django
+django.setup()
