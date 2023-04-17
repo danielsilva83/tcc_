@@ -6,16 +6,30 @@ your API requires authentication:
 
     urlpatterns = [
         ...
-        path('auth/', include('rest_framework.urls'))
+        url(r'^auth/', include('rest_framework.urls', namespace='rest_framework'))
     ]
 
-You should make sure your authentication settings include `SessionAuthentication`.
+In Django versions older than 1.9, the urls must be namespaced as 'rest_framework',
+and you should make sure your authentication settings include `SessionAuthentication`.
 """
+from __future__ import unicode_literals
+
+import django
+from django.conf.urls import url
 from django.contrib.auth import views
-from django.urls import path
+
+if django.VERSION < (1, 11):
+    login = views.login
+    login_kwargs = {'template_name': 'rest_framework/login.html'}
+    logout = views.logout
+else:
+    login = views.LoginView.as_view(template_name='rest_framework/login.html')
+    login_kwargs = {}
+    logout = views.LogoutView.as_view()
+
 
 app_name = 'rest_framework'
 urlpatterns = [
-    path('login/', views.LoginView.as_view(template_name='rest_framework/login.html'), name='login'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    url(r'^login/$', login, login_kwargs, name='login'),
+    url(r'^logout/$', logout, name='logout'),
 ]
