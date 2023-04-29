@@ -100,9 +100,11 @@ def analise_experimento_reducao(request,nome):
             df_media = df_media.T
             df_std = df_std.T
            
-
+            df = df.drop(['0'], axis=0)
+            df = df.drop(['1'], axis=0)
             df = df.groupby(['reducao'],as_index=False ).std()
-            df_reduc = pd.DataFrame(df.reducao)
+          
+            df_reduc = pd.DataFrame(df)
             df_reduc = df_reduc.values.tolist()
             
             #lendo medidas originais
@@ -131,7 +133,7 @@ def analise_experimento_reducao(request,nome):
             # criando dataframe com as medidas constantes
             lista_med_constantes = pd.DataFrame(columns = ['dataset','medida','valor_da_medida','reducao'])
             # criando dataframe com as medidas variantes
-            lista_med_variaram = pd.DataFrame(columns = ['dataset','medida', 'std_medida','reducao'])
+            lista_med_variaram = pd.DataFrame(columns = ['dataset','medida','reducao', 'média_medida','std_medida','coeficiente_de_variacao'])
             
         
             #iterando as medidas para comparar o valor da medida do resultado com a medida do original
@@ -147,32 +149,35 @@ def analise_experimento_reducao(request,nome):
                     #caso medida do resultado seja diferente da medida do original, signigica que a medida teve variacao
                     if df_media[medida].values != df_original[medida].values:
                         #adicionando medida no dataframe de medidas variantes
-                        
-                        lista_med_variaram.loc[lin] = namefile, df[medida].name, df[medida][ii], nreducao[0]
+                        mean = (df_media[medida].values).round(2)
+                        std =  df[medida][ii]
+                        cv= (mean/std).round(2)
+                      
+                        lista_med_variaram.loc[lin] = namefile,df[medida].name,nreducao[0],mean[0], std, cv
                     ii=ii+1
                     #contador de linhas para o dataframe
                     lin = lin + 1
             #gera rank medidas variantes por desvio padrao rank_std  e tamanho de reducao
-            lista_med_variaram['rank_std'] = lista_med_variaram['std_medida'].rank()
+            lista_med_variaram['rank_cv'] = lista_med_variaram['coeficiente_de_variacao'].rank()
             #organiza medidas contastantes por valor da medida
-            lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=False)
+            lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=True)
             #elimina os NANs da medidas variantes
-            lista_med_variaram = lista_med_variaram.dropna()
+            lista_med_variaram = lista_med_variaram.dropna(axis=0)
             #organiza medidas variantes por rank de desvio padrao
-            lista_med_variaram = lista_med_variaram.sort_values(by='rank_std',ascending=False)
+            lista_med_variaram = lista_med_variaram.sort_values(by='rank_cv',ascending=True)
             
             #adiciona lista de medidas variantes pir 
 
             lista_med_variaram = lista_med_variaram.reset_index(drop=True)
-            lista_med_variaram_head = lista_med_variaram.head(10).to_html()
-            lista_med_variaram_tail = lista_med_variaram.tail(10).to_html()
+            lista_med_variaram_head = lista_med_variaram.head(25).to_html()
+            lista_med_variaram_tail = lista_med_variaram.tail(25).to_html()
             
             
             #organiza lista de medidas constantes por valor da medida 
             lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=False)
             lista_med_constantes = lista_med_constantes.reset_index(drop=True)
             lista_med_constantes_head = lista_med_constantes.to_html()
-            lista_med_constantes_tail = lista_med_constantes.tail(10).to_html()
+            lista_med_constantes_tail = lista_med_constantes.tail(25).to_html()
 
             #Cria lista com as medidas constantes por dataset
         list_medidas_constantes_head.append(lista_med_constantes_head)

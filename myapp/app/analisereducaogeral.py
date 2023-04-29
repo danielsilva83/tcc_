@@ -2,6 +2,7 @@
 import glob
 
 import os
+import numpy as np
 
 import pandas as pd
 from django.shortcuts import render
@@ -26,7 +27,10 @@ def analise_experimento_reducao_geral(request,nome):
     list_medidas_constantes_head = []
     list_medidas_variantes_tail = []
     list_medidas_constantes_tail = []
-    
+    list_medidas_variantes_head_ =  pd.DataFrame()
+    list_medidas_constantes_head_ =  pd.DataFrame()
+    list_medidas_variantes_tail_ =  pd.DataFrame()
+    list_medidas_constantes_tail_ =  pd.DataFrame()
     nome = str(nome)
 
     experimentos = Experimento.objects.filter(nome=nome).values()
@@ -74,17 +78,22 @@ def analise_experimento_reducao_geral(request,nome):
             #tirando a media das medidas de todas as repeticoes
             df.loc['0'] = df.mean()
             #tirando o desvios padrao da medias de todas as repeticoes
-            df.loc['1'] = df.std()
+           
             #criando daframe com as medias das medidas
             df_media = pd.DataFrame(df.loc['0'])
-            df_std = pd.DataFrame(df.loc['1'])
+           
             #transpondo o dataframe
             df_media = df_media.T
-            df_std = df_std.T
+         
            
-
-            df = df.groupby(['reducao'],as_index=False ).std( )
-            df_reduc = pd.DataFrame(df.reducao)
+            df =    df.drop(['0'], axis=0)
+            
+            df1_ = df.groupby(by=['reducao'],as_index=False ).mean()
+            df2_ = df.groupby(by=['reducao'],as_index=False ).std()
+            df1 = pd.DataFrame(df1_)
+            df2 = pd.DataFrame(df2_)
+            #print(df1)
+            df_reduc = pd.DataFrame(df1_)
             df_reduc = df_reduc.values.tolist()
             
             #lendo medidas originais
@@ -101,7 +110,7 @@ def analise_experimento_reducao_geral(request,nome):
             # criando dataframe com as medidas constantes
             lista_med_constantes = pd.DataFrame(columns = ['medida','valor_da_medida','reducao'])
             # criando dataframe com as medidas variantes
-            lista_med_variaram = pd.DataFrame(columns = ['medida', 'std_medida','reducao'])
+            lista_med_variaram = pd.DataFrame(columns = ['reducao_em_%','medida','média_medida','std_medida','cv_medida_em_%'])
             
         
             #iterando as medidas para comparar o valor da medida do resultado com a medida do original
@@ -117,19 +126,31 @@ def analise_experimento_reducao_geral(request,nome):
                     #caso medida do resultado seja diferente da medida do original, signigica que a medida teve variacao
                     if df_media[medida].values != df_original[medida].values:
                         #adicionando medida no dataframe de medidas variantes
+                    
+                        mean = df1[medida][0]
+                  
+                        mean = round(mean, 1)
                         
-                        lista_med_variaram.loc[lin] = df[medida].name, df[medida][ii], nreducao[0]
+                        std= df2[medida][0]
+                      
+                        std = round(std, 1)
+                      
+                        cv_medida = (mean/std)
+                  
+                        cv_medida = round(cv_medida, 1)
+                        lista_med_variaram.loc[lin] = nreducao[0]*100,df1[medida].name, mean, std,\
+                        cv_medida
                     ii=ii+1
                     #contador de linhas para o dataframe
                     lin = lin + 1
             #gera rank medidas variantes por desvio padrao rank_std  e tamanho de reducao
-            #lista_med_variaram['rank_std'] = lista_med_variaram['std_medida'].rank()
+            #lista_med_variaram['rank_std'] = lista_med_variaram['cv_medida'].rank()
             #organiza medidas contastantes por valor da medida
-            lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=False)
+            #lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=False)
             #elimina os NANs da medidas variantes
             lista_med_variaram = lista_med_variaram.dropna()
             #organiza medidas variantes por rank de desvio padrao
-            #lista_med_variaram = lista_med_variaram.sort_values(by='rank_std',ascending=False)
+            lista_med_variaram = lista_med_variaram.sort_values(by='medida',ascending=False)
             
             #adiciona lista de medidas variantes pir 
 
@@ -141,11 +162,12 @@ def analise_experimento_reducao_geral(request,nome):
             
             
             #organiza lista de medidas constantes por valor da medida 
-            lista_med_constantes = lista_med_constantes.sort_values(by='valor_da_medida',ascending=False)
+            lista_med_constantes = lista_med_constantes.sort_values(by='medida',ascending=False)
             lista_med_constantes = lista_med_constantes.reset_index(drop=True)
             #####################
             #df_union_df = pd.concat([df_union_df, lista_med_variaram], ignore_index=True)
             lista_med_constantes_head = lista_med_constantes
+        
             lista_med_constantes_tail = lista_med_constantes
 
             #Cria lista com as medidas constantes por dataset
@@ -154,38 +176,50 @@ def analise_experimento_reducao_geral(request,nome):
         list_medidas_constantes_tail.append(lista_med_constantes_tail)
         list_medidas_variantes_tail.append(lista_med_variaram_tail)
 
-    list_medidas_variantes_head_ =  pd.DataFrame()
-    list_medidas_constantes_head_ =  pd.DataFrame()
-    list_medidas_variantes_tail_ =  pd.DataFrame()
-    list_medidas_constantes_tail_ =  pd.DataFrame()
+
        
     for constantes_head  in list_medidas_constantes_head:
-        list_medidas_constantes_head_ = pd.concat([list_medidas_constantes_head_, constantes_head], ignore_index=True)
-    list_medidas_constantes_head_['std_geral'] = list_medidas_constantes_head_.std(axis=1)
-    
-    list_medidas_constantes_head_ = list_medidas_constantes_head_.sort_values(by='std_geral',ascending=False)
-  
-    list_medidas_constantes_head_['rank_std_geral'] = list_medidas_constantes_head_['std_geral'].rank()
+        #list_medidas_constantes_head_ = pd.concat([list_medidas_constantes_head_, constantes_head], ignore_index=True)
+        list_medidas_constantes_head_ = list_medidas_constantes_head_.append(constantes_head, ignore_index=True)
+    list_medidas_constantes_head_['mean'] = list_medidas_constantes_head_.mean(axis=1)
+    list_medidas_constantes_head_['std'] = list_medidas_constantes_head_.std(axis=1)
+    list_medidas_constantes_head_['cv_geral'] = list_medidas_constantes_head_['mean']/ list_medidas_constantes_head_['std'].round(2)
 
+  
+    list_medidas_constantes_head_['rank_cv_geral'] = list_medidas_constantes_head_['cv_geral'].rank()
+    list_medidas_constantes_head_ = list_medidas_constantes_head_.sort_values(by='medida',ascending=False)
    
-    list_medidas_constantes_head_ = list_medidas_constantes_head_.to_html()
+    list_medidas_constantes_head_ = list_medidas_constantes_head_.head(100).to_html()
    
     for variantes_head  in list_medidas_variantes_head:
-        list_medidas_variantes_head_ = pd.concat([list_medidas_variantes_head_, variantes_head])
-    list_medidas_variantes_head_['std_geral']  = list_medidas_variantes_head_.std(axis=1)
-    list_medidas_variantes_head_['std_geral'] = list_medidas_variantes_head_['std_geral'].apply(lambda x: '{:,.2f}'.format(x))
-    list_medidas_variantes_head_ = list_medidas_variantes_head_.sort_values(by='std_geral',ascending=False)
-    list_medidas_variantes_head_['rank_std_geral'] = list_medidas_variantes_head_['std_geral'].rank()
-
-    list_medidas_variantes_head_ = list_medidas_variantes_head_.head(50).to_html()
+        #list_medidas_variantes_head_ = pd.concat([list_medidas_variantes_head_, variantes_head])
+        list_medidas_variantes_head_ = list_medidas_variantes_head_.append(variantes_head, ignore_index=False)
+    list_medidas_variantes_head_ = list_medidas_variantes_head_.groupby(by=['medida','reducao_em_%'],sort=False,as_index=False ).sum()
+    #print(list_medidas_variantes_head_)
+    list_medidas_variantes_head_['mean'] = list_medidas_variantes_head_.mean(axis=1).round(2)
+    list_medidas_variantes_head_['std'] = list_medidas_variantes_head_.std(axis=1).round(2)
+    list_medidas_variantes_head_['cv_geral'] = (list_medidas_variantes_head_['mean']/ list_medidas_variantes_head_['std'] ).round(2)
+    list_medidas_variantes_head_['cv_geral'] = list_medidas_variantes_head_['cv_geral'].apply(lambda x: '{:,.2f}'.format(x))
+    list_medidas_variantes_head_=list_medidas_variantes_head_.drop(['média_medida','std_medida',	'cv_medida_em_%'], axis=1)
+    list_medidas_variantes_head_['rank_cv_geral'] = list_medidas_variantes_head_['cv_geral'].rank()
+    list_medidas_variantes_head_ = list_medidas_variantes_head_.dropna(axis=0,subset=['std'])
+    list_medidas_variantes_head_ = list_medidas_variantes_head_.sort_values(by=['rank_cv_geral','medida'],ascending=True)
+    list_medidas_variantes_head_ = list_medidas_variantes_head_.to_html()
 
     for variantes_tail  in list_medidas_variantes_tail:
-        list_medidas_variantes_tail_ = pd.concat([list_medidas_variantes_tail_, variantes_tail])
-    list_medidas_variantes_tail_['std_geral'] = list_medidas_variantes_tail_.std(axis=1)
-    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.sort_values(by='std_geral',ascending=False)
-    list_medidas_variantes_tail_['rank_std_geral'] = list_medidas_variantes_tail_['std_geral'].rank()
+        #list_medidas_variantes_tail_ = pd.concat([list_medidas_variantes_tail_, variantes_tail])
+        list_medidas_variantes_tail_ = list_medidas_variantes_tail_.append(variantes_tail, ignore_index=False)
+    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.groupby(by=['medida','reducao_em_%'],sort=False,as_index=False ).sum()
+    list_medidas_variantes_tail_['mean'] = list_medidas_variantes_tail_.mean(axis=1).round(2)
+    list_medidas_variantes_tail_['std'] = list_medidas_variantes_tail_.std(axis=1).round(2)
+    list_medidas_variantes_tail_['cv_geral'] = (list_medidas_variantes_tail_['mean']/ list_medidas_variantes_tail_['std']).round(2)
+    list_medidas_variantes_tail_=list_medidas_variantes_tail_.drop(['média_medida','std_medida',	'cv_medida_em_%'], axis=1)
+    list_medidas_variantes_tail_['rank_cv_geral'] = list_medidas_variantes_tail_['cv_geral'].rank()
+    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.dropna(axis=0,subset=['std'])
+    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.sort_values(by=['rank_cv_geral'],ascending=True)
+    
  
-    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.tail(50).to_html()
+    list_medidas_variantes_tail_ = list_medidas_variantes_tail_.to_html()
         
     
     list_medidas_variantes_head.clear(),list_medidas_constantes_head.clear() 
@@ -193,7 +227,7 @@ def analise_experimento_reducao_geral(request,nome):
 
     list_medidas_constantes_head.append(list_medidas_constantes_head_)
     list_medidas_variantes_head.append(list_medidas_variantes_head_)
-    list_medidas_constantes_tail.append(lista_med_constantes_tail)
+    list_medidas_constantes_tail.append(list_medidas_variantes_tail_)
     list_medidas_variantes_tail.append(list_medidas_variantes_tail_)
         
     #list_medidas_constantes = [entry for entry in list_medidas_constantes]
