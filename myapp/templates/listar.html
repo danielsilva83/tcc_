@@ -30,9 +30,9 @@
                 {% for process in context %}<h5> 
                     <li>  Nome do Experimento: {{ process }}      — Arquivo: {{ process.arquivo }} </h5> <p> 
                        <h9> — Vizualizar gráficos dos valores das Medidas por tamanho de redução do dataset: <a href="{{ process.id }}">Visualizar gráficos</a> <p> <p> </h9>
-                       <h9> — Visualizar Ranking de variabilidade das Medidas por dataset:  <a href="{{ process.nome }}/analise">Visualizar Hanking por dataset</a> <p> </h9>
-                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução do dataset:  <a href="{{ process.nome }}/analiselistreducao">Visualizar Hanking por dataset e redução</a> <p> </h9>
-                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução com todos os datasets deste Experimento unificados: <a href="{{ process.nome }}/analiselistreducaogeral">Visualizar Hanking Geral</a> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por dataset:  <a href="{{ process.nome }}/analise">Visualizar Ranking por dataset</a> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução do dataset:  <a href="{{ process.nome }}/analiselistreducao">Visualizar Ranking por dataset e redução</a> <p> </h9>
+                       <h9> — Visualizar Ranking de variabilidade das Medidas por tamanho de Redução com todos os datasets deste Experimento unificados: <a href="{{ process.nome }}/analiselistreducaogeral">Visualizar Ranking Geral</a> <p> </h9>
                        <h9> — Download Resultado Original <a href="{{ process.salvarDf_O }}">{{ process.salvarDf_O }}</a><br></h6>
                        <h9> — Download Resultado Reduzido <a href="{{ process.salvarDf_R }}">{{ process.salvarDf_R }}</a><p><p></p></h6>
                        
